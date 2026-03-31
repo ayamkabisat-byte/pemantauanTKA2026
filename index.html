@@ -69,7 +69,7 @@
                     <button id="menuBtn" class="mr-4 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light md:hidden focus:outline-none">
                         <i data-lucide="menu" class="w-6 h-6"></i>
                     </button>
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100" id="header-title">Informasi Umum</h2>
+                    <h2 class="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100" id="header-title">Identitas & Lokasi</h2>
                 </div>
             </div>
             <div class="flex items-center space-x-3 text-sm ml-10 sm:ml-0">
@@ -86,16 +86,21 @@
         <div class="flex-1 p-4 md:p-8 w-full max-w-5xl mx-auto">
             <form id="main-form" class="space-y-8 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border dark:border-slate-700 transition-colors duration-300">
                 
-                <div class="space-y-4 pb-6 border-b border-gray-200 dark:border-slate-700">
+                <!-- IDENTITAS CONTAINER (Hanya muncul di awal) -->
+                <div id="identitas-container" class="space-y-4 pb-6">
+                    <div class="bg-blue-50 dark:bg-slate-750 border-l-4 border-primary p-4 mb-6 rounded-r-lg">
+                        <p class="text-sm text-blue-800 dark:text-blue-300"><b>Petunjuk:</b> Harap isi formulir identitas dan pastikan <b>NPSN Sekolah</b> sudah benar. Data ini akan menjadi kunci pengelompokan laporan Anda.</p>
+                    </div>
+
                     <h3 class="text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center mb-4">
-                        <i data-lucide="users" class="w-5 h-5 mr-2 text-primary dark:text-primary-light"></i> Identitas Tim Pemantau & Sasaran
+                        <i data-lucide="map-pin" class="w-5 h-5 mr-2 text-primary dark:text-primary-light"></i> Detail Lokasi & Tim
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2 p-4 bg-gray-50 dark:bg-slate-750 rounded-lg border border-gray-200 dark:border-slate-600">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-200 dark:border-slate-600">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Petugas 1 (Ketua Tim) *</label>
-                                <input type="text" name="nama_petugas_1" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="Nama Petugas 1">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Petugas 1 (Ketua Tim) <span class="text-red-500">*</span></label>
+                                <input type="text" name="nama_petugas_1" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="Nama Lengkap">
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Petugas 2 (Opsional)</label>
@@ -112,11 +117,11 @@
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Pemantauan *</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Pemantauan <span class="text-red-500">*</span></label>
                             <input type="date" name="tanggal" id="tanggal" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary">
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Provinsi *</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Provinsi <span class="text-red-500">*</span></label>
                             <select name="provinsi" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary cursor-pointer">
                                 <option value="">-- Pilih Provinsi --</option>
                                 <option value="Maluku Utara">Maluku Utara</option>
@@ -130,22 +135,45 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kabupaten/Kota *</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label>
                             <input type="text" name="kabkota" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="Misal: Kota Ternate">
                         </div>
+                        <div></div> <!-- Empty div for grid alignment if needed -->
+
+                        <!-- NPSN dan Sasaran Diurutkan Ulang Bersebelahan -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Instansi/Sekolah Sasaran *</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">NPSN Sekolah <span class="text-red-500">*</span></label>
+                            <input type="number" name="npsn" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="8 Digit NPSN">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Satuan Pendidikan / Sasaran <span class="text-red-500">*</span></label>
                             <input type="text" name="nama_sasaran" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="Misal: SMP Negeri 1 Ternate">
                         </div>
+
+                        <!-- TAMBAHAN BARU: LINK BUKTI G-DRIVE -->
+                        <div class="md:col-span-2 pt-2 border-t border-gray-100 dark:border-slate-700 mt-2">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 flex items-center">
+                                <i data-lucide="link" class="w-4 h-4 mr-2 text-primary"></i> Link Bukti Pemantauan (Google Drive) <span class="text-red-500 ml-1">*</span>
+                            </label>
+                            <input type="url" name="link_bukti" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 focus:ring-primary focus:border-primary" placeholder="https://drive.google.com/drive/folders/...">
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1.5">Pastikan akses link Google Drive sudah diubah menjadi <b>"Siapa saja yang memiliki link / Anyone with the link"</b>.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-gray-200 dark:border-slate-700 flex justify-end mt-8">
+                        <button type="button" onclick="simpanIdentitas()" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg shadow-md transition-colors flex items-center text-lg focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                            Mulai Isi Instrumen <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div id="questions-container">
+                <!-- INSTRUMEN CONTAINER (Tersembunyi di awal) -->
+                <div id="questions-container" class="hidden">
                     <!-- Rendered via JS -->
                 </div>
 
-                <!-- Tombol Action Lengkap -->
-                <div class="pt-6 border-t border-gray-200 dark:border-slate-700 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-8">
+                <!-- Tombol Action Lengkap (Tersembunyi di awal) -->
+                <div id="action-buttons" class="hidden pt-6 border-t border-gray-200 dark:border-slate-700 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-8">
                     <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                         <button type="button" onclick="generatePDFReport(true)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-slate-200 font-medium py-2.5 px-4 rounded-lg shadow-sm transition-colors flex items-center justify-center border border-slate-300 dark:border-slate-600">
                             <i data-lucide="printer" class="w-5 h-5 mr-2"></i> Cetak Blanko Kosong
@@ -155,21 +183,23 @@
                         </button>
                     </div>
                     <button type="submit" id="submitBtn" class="bg-secondary hover:bg-secondary-dark text-white font-medium py-2.5 px-8 rounded-lg shadow-sm transition-colors flex items-center justify-center w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2">
-                        <i data-lucide="send" class="w-5 h-5 mr-2"></i> Kirim & Simpan
+                        <i data-lucide="send" class="w-5 h-5 mr-2"></i> Kirim & Simpan Data
                     </button>
                 </div>
             </form>
         </div>
     </main>
 
+    <!-- Modal Loading -->
     <div id="loadingModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden z-50 flex items-center justify-center backdrop-blur-sm">
         <div class="bg-white dark:bg-slate-800 rounded-xl p-8 flex flex-col items-center shadow-2xl border dark:border-slate-700">
             <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 dark:border-slate-600 h-12 w-12 mb-4"></div>
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Menyimpan Data...</h2>
-            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm text-center">Mohon tunggu, sedang mengirim/memperbarui data.</p>
+            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm text-center">Mohon tunggu, sedang mengirim/memperbarui data di database.</p>
         </div>
     </div>
 
+    <!-- Modal Sukses -->
     <div id="successModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden z-50 flex items-center justify-center backdrop-blur-sm">
         <div class="bg-white dark:bg-slate-800 rounded-xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center transform transition-all border dark:border-slate-700">
             <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 dark:bg-green-900/30 mb-6 border border-green-200 dark:border-green-800/50">
@@ -184,8 +214,10 @@
     </div>
 
     <script>
+        // URL SCRIPT TETAP SAMA
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby52IF687IbilCPLMKHC9UTFJ3xyG9Qljyq8_xtc0B14V_Z4KwR0nnaOpKA9-OJXqG5/exec'; 
         let completedTabs = new Set();
+        let activeInstrumentId = 'identitas';
 
         function initTheme() {
             const themeIconDark = document.getElementById('themeIconDark');
@@ -211,9 +243,19 @@
 
         initTheme();
 
+        const sideMenu = [
+            { id: 'identitas', title: 'Identitas & Lokasi', icon: 'map-pin' },
+            { id: 'dinas', title: 'Dinas Kab/Kota', icon: 'building-2' },
+            { id: 'bpmp', title: 'Fungsi BPMP', icon: 'monitor-check' },
+            { id: 'sekolah', title: 'Satuan Pendidikan', icon: 'school' },
+            { id: 'petugas', title: 'Petugas Ruang Ujian', icon: 'user-cog' },
+            { id: 'siswa1', title: 'Wawancara Siswa 1', icon: 'user' },
+            { id: 'siswa2', title: 'Wawancara Siswa 2', icon: 'users' }
+        ];
+
         const instruments = [
             {
-                id: 'dinas', title: 'Dinas Kab/Kota', icon: 'building-2',
+                id: 'dinas', title: 'Dinas Kab/Kota',
                 sections: [
                     {
                         title: 'A. Tata Kelola dan Koordinasi',
@@ -253,7 +295,7 @@
                 ]
             },
             {
-                id: 'bpmp', title: 'Fungsi BPMP', icon: 'monitor-check',
+                id: 'bpmp', title: 'Fungsi BPMP',
                 sections: [
                     {
                         title: 'A. Koordinasi dan Pemantauan Infrastruktur',
@@ -276,7 +318,7 @@
                 ]
             },
             {
-                id: 'sekolah', title: 'Satuan Pendidikan', icon: 'school',
+                id: 'sekolah', title: 'Satuan Pendidikan',
                 sections: [
                     {
                         title: 'A. Kepanitiaan, Sosialisasi, dan Anggaran',
@@ -320,7 +362,7 @@
                 ]
             },
             {
-                id: 'petugas', title: 'Petugas Ruang Ujian', icon: 'user-cog',
+                id: 'petugas', title: 'Petugas Ruang Ujian',
                 sections: [
                     {
                         title: 'A. PENGAWAS RUANG (Dari Sekolah Lain / Silang Murni)',
@@ -359,7 +401,7 @@
                 ]
             },
             {
-                id: 'siswa1', title: 'Wawancara Siswa 1', icon: 'user',
+                id: 'siswa1', title: 'Wawancara Siswa 1',
                 sections: [
                     {
                         title: 'Data Responden 1',
@@ -395,7 +437,7 @@
                 ]
             },
             {
-                id: 'siswa2', title: 'Wawancara Siswa 2', icon: 'users',
+                id: 'siswa2', title: 'Wawancara Siswa 2',
                 sections: [
                     {
                         title: 'Data Responden 2',
@@ -432,8 +474,6 @@
             }
         ];
 
-        let activeInstrumentId = 'dinas';
-
         function init() {
             document.getElementById('tanggal').valueAsDate = new Date();
             renderAllForms(); 
@@ -452,7 +492,7 @@
             const inactiveClasses = "text-gray-600 dark:text-gray-400 border-l-4 border-transparent hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors";
             const completedClasses = "bg-secondary/20 text-secondary-dark dark:bg-secondary/20 dark:text-secondary border-l-4 border-secondary font-semibold";
 
-            instruments.forEach(inst => {
+            sideMenu.forEach(inst => {
                 const li = document.createElement('li');
                 const isActive = inst.id === activeInstrumentId;
                 const isCompleted = completedTabs.has(inst.id);
@@ -482,9 +522,47 @@
             lucide.createIcons();
         }
 
+        function cekIdentitasValid() {
+            // Ditambahkan link_bukti sebagai required fields
+            const requiredFields = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'npsn', 'nama_sasaran', 'link_bukti'];
+            for (let name of requiredFields) {
+                const el = document.querySelector(`[name="${name}"]`);
+                if (!el.value.trim()) {
+                    el.reportValidity(); 
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function simpanIdentitas() {
+            if (cekIdentitasValid()) {
+                completedTabs.add('identitas');
+                switchTab('dinas'); 
+            }
+        }
+
         function switchTab(id) {
-            activeInstrumentId = id;
+            if (id !== 'identitas' && !cekIdentitasValid()) {
+                activeInstrumentId = 'identitas';
+                id = 'identitas';
+            } else {
+                activeInstrumentId = id;
+            }
+            
             renderNavigation();
+
+            if (id === 'identitas') {
+                document.getElementById('identitas-container').classList.remove('hidden');
+                document.getElementById('questions-container').classList.add('hidden');
+                document.getElementById('action-buttons').classList.add('hidden');
+                document.getElementById('header-title').innerText = 'Identitas & Lokasi Sasaran';
+            } else {
+                document.getElementById('identitas-container').classList.add('hidden');
+                document.getElementById('questions-container').classList.remove('hidden');
+                document.getElementById('action-buttons').classList.remove('hidden');
+                document.getElementById('header-title').innerText = `Instrumen: ${sideMenu.find(m => m.id === id).title}`;
+            }
 
             instruments.forEach(inst => {
                 const wrapper = document.getElementById(`tab-content-${inst.id}`);
@@ -498,9 +576,6 @@
                     });
                 }
             });
-
-            const activeInst = instruments.find(i => i.id === activeInstrumentId);
-            document.getElementById('header-title').innerText = `Instrumen: ${activeInst.title}`;
 
             if (window.innerWidth < 768) {
                 document.getElementById('sidebar').classList.add('hidden');
@@ -582,13 +657,11 @@
             });
         }
 
-        // FUNGSI BARU: CETAK LAPORAN (KOSONG MAUPUN TERISI)
         function generatePDFReport(isBlank) {
             const form = document.getElementById('main-form');
             const formData = new FormData(form);
             const activeInst = instruments.find(i => i.id === activeInstrumentId);
             
-            // Siapkan Window Baru untuk Print
             let printWin = window.open('', '', 'width=900,height=650');
             
             let html = `
@@ -611,29 +684,27 @@
                     .opt-item { display: inline-flex; items-center; }
                     .text-box { border: 1px solid #666; min-height: 60px; padding: 10px; margin-top: 5px; background: ${isBlank ? '#fff' : '#fafafa'}; }
                     .note-box { font-style: italic; color: #444; font-size: 13px; margin-top: 8px; }
-                    .signature-area { margin-top: 50px; text-align: right; padding-right: 50px; page-break-inside: avoid;}
                 </style>
             </head>
             <body>
             `;
             
-            // Header Image (Memanggil gambar lokal)
             html += `<img src="Header Itjen Kemendikdasmen.png" class="header-img" onerror="this.style.display='none'" />`;
             html += `<div class="title">INSTRUMEN PEMANTAUAN TKA TAHUN 2026<br>KATEGORI: ${activeInst.title}</div>`;
             
-            // Gabung Nama Petugas
             let petugas = [formData.get('nama_petugas_1'), formData.get('nama_petugas_2'), formData.get('nama_petugas_3'), formData.get('nama_petugas_4')].filter(Boolean).join(', ');
 
-            // Identitas Tabel
+            // Urutan Diperbaiki dan Ditambahkan Link Bukti
             html += `<table>
                 <tr><th>Tanggal Pemantauan</th><td>${isBlank ? '' : (formData.get('tanggal') || '')}</td></tr>
                 <tr><th>Provinsi</th><td>${isBlank ? '' : (formData.get('provinsi') || '')}</td></tr>
                 <tr><th>Kabupaten/Kota</th><td>${isBlank ? '' : (formData.get('kabkota') || '')}</td></tr>
-                <tr><th>Nama Instansi/Sasaran</th><td>${isBlank ? '' : (formData.get('nama_sasaran') || '')}</td></tr>
+                <tr><th>NPSN Sekolah</th><td>${isBlank ? '' : (formData.get('npsn') || '')}</td></tr>
+                <tr><th>Nama Satuan Pendidikan</th><td>${isBlank ? '' : (formData.get('nama_sasaran') || '')}</td></tr>
+                <tr><th>Link Bukti Pemantauan</th><td>${isBlank ? '' : (formData.get('link_bukti') || '')}</td></tr>
                 <tr><th>Tim Petugas</th><td>${isBlank ? '' : petugas}</td></tr>
             </table>`;
             
-            // Pertanyaan
             activeInst.sections.forEach(sec => {
                 html += `<div class="section-title">${sec.title}</div>`;
                 sec.questions.forEach(q => {
@@ -658,19 +729,13 @@
                 });
             });
 
-            html += `<div class="signature-area">
-                <p>Petugas Pemantau,</p>
-                <br><br><br><br>
-                <p><b>${isBlank ? '( .............................................. )' : (formData.get('nama_petugas_1') || '( .............................................. )')}</b></p>
-            </div>`;
-
             html += `
                 <script>
                     window.onload = function() {
                         setTimeout(function() {
                             window.print();
                             window.close();
-                        }, 500); // Tunggu setengah detik agar gambar header termuat
+                        }, 500); 
                     };
                 <\/script>
             </body>
@@ -701,7 +766,9 @@
                 tanggal: formData.get('tanggal'),
                 provinsi: formData.get('provinsi'),
                 kabkota: formData.get('kabkota'),
+                npsn: formData.get('npsn'), 
                 sasaran: formData.get('nama_sasaran'),
+                link_bukti: formData.get('link_bukti'),
                 kategori: activeInst.title,
                 jawaban: []
             };
@@ -745,9 +812,9 @@
             document.getElementById('successModal').classList.add('hidden');
             window.scrollTo(0, 0);
 
-            const currentIndex = instruments.findIndex(i => i.id === activeInstrumentId);
-            if (currentIndex < instruments.length - 1) {
-                const nextId = instruments[currentIndex + 1].id;
+            const currentIndex = sideMenu.findIndex(i => i.id === activeInstrumentId);
+            if (currentIndex < sideMenu.length - 1) {
+                const nextId = sideMenu[currentIndex + 1].id;
                 switchTab(nextId);
             }
         }

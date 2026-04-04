@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemantauan TKA - Dinas Kab/Kota</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { DEFAULT: '#067ac1', light: '#088de0', dark: '#05629b' }, secondary: { DEFAULT: '#f9a703', light: '#fbb72c', dark: '#d99002' }, slate: { 750: '#293548' } } } } }</script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); body { font-family: 'Inter', sans-serif; background-color: #f8fafc; transition: background-color 0.3s; } .dark body { background-color: #0f172a; } .loader { border-top-color: #f9a703; animation: spinner 1.5s linear infinite; } @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+</head>
+<body class="h-screen flex overflow-hidden">
+    <aside class="w-64 bg-white dark:bg-slate-800 shadow-lg h-full flex flex-col z-10 transition-all duration-300 hidden md:flex absolute md:relative border-r dark:border-slate-700 flex-shrink-0" id="sidebar">
+        <div class="p-6 border-b dark:border-slate-700 flex items-start justify-center relative bg-slate-50 dark:bg-slate-900">
+            <div class="flex flex-col items-center w-full mt-2">
+                <img src="logo pengawasan.png" class="w-16 h-16 object-cover rounded-full shadow-sm border-2 border-white dark:border-slate-700 mb-3" onerror="this.outerHTML='<i data-lucide=\'building-2\' class=\'w-12 h-12 text-primary mb-3\'></i>'; lucide.createIcons();">
+                <h1 class="text-sm font-bold text-gray-700 dark:text-gray-200 text-center uppercase tracking-wider">Pemantauan TKA<br>Dinas Kab/Kota</h1>
+            </div>
+            <button id="closeSidebarBtn" class="md:hidden text-gray-400 hover:text-gray-700 absolute top-4 right-4 focus:outline-none"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4"><ul class="space-y-1" id="nav-menu"></ul></nav>
+        <div class="p-4 border-t dark:border-slate-700 text-xs text-gray-400 dark:text-gray-500 text-center">
+            <p class="mb-1">Versi Final (Dinas)</p>
+            <p class="text-[10px] mt-2 pt-2 border-t border-gray-200 dark:border-slate-700/50">&copy; 2026 <a href="mailto:meldi.chaniko@gmail.com" class="font-medium hover:text-primary transition-colors">Meldi Chaniko</a></p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full overflow-x-hidden overflow-y-auto relative bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+        <div class="w-full bg-white dark:bg-slate-800 border-b dark:border-slate-700 p-4 md:p-6 flex justify-center md:justify-start shadow-sm z-10 flex-shrink-0">
+            <img src="Header Itjen Kemendikdasmen.png" class="w-full max-w-5xl h-auto object-contain object-left md:max-h-24 max-h-16 dark:hidden" onerror="this.style.display='none'">
+            <img src="Header Itjen Kemendikdasmen Dark.png" class="w-full max-w-5xl h-auto object-contain object-left md:max-h-24 max-h-16 hidden dark:block" onerror="this.style.display='none'">
+        </div>
+
+        <header class="bg-white/90 backdrop-blur-md dark:bg-slate-800/90 shadow-sm border-b dark:border-slate-700 p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between sticky top-0 z-0">
+            <div class="flex items-center"><button id="menuBtn" class="mr-4 text-gray-600 hover:text-primary md:hidden"><i data-lucide="menu" class="w-6 h-6"></i></button><h2 class="text-xl font-bold text-gray-800 dark:text-gray-100" id="header-title">Identitas Wilayah</h2></div>
+            <div class="flex items-center space-x-3 text-sm ml-10 sm:ml-0 mt-2 sm:mt-0">
+                <button id="themeToggleBtn" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-700"><i data-lucide="moon" id="themeIconDark" class="w-5 h-5"></i><i data-lucide="sun" id="themeIconLight" class="w-5 h-5 hidden"></i></button>
+                <span class="bg-green-100 text-green-800 py-1 px-3 rounded-full font-medium flex items-center"><i data-lucide="wifi" class="w-4 h-4 mr-1"></i> Online</span>
+            </div>
+        </header>
+
+        <div class="flex-1 p-4 md:p-8 w-full max-w-5xl mx-auto">
+            <form id="main-form" class="space-y-8 bg-white dark:bg-slate-800 p-6 md:p-8 rounded-xl shadow-sm border dark:border-slate-700">
+                <div id="identitas-container" class="space-y-4 pb-6">
+                    <div class="bg-blue-50 dark:bg-slate-750 border-l-4 border-primary p-4 mb-6 rounded-r-lg"><p class="text-sm text-blue-800 dark:text-blue-300"><b>Petunjuk:</b> Pilih Provinsi dan isi Kab/Kota, klik <b>Cari Data</b> untuk memanggil data Dinas jika sudah pernah dikerjakan.</p></div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2 flex flex-col md:flex-row gap-3 items-end bg-gray-50 dark:bg-slate-750 p-4 rounded-lg border border-gray-200 dark:border-slate-600 mb-2">
+                            <div class="w-full md:flex-1"><label class="block text-sm font-bold text-primary dark:text-primary-light mb-1">Provinsi <span class="text-red-500">*</span></label><select id="prov_search" name="provinsi" required class="w-full border border-primary/40 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"><option value="">-- Pilih Provinsi --</option><option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option><option value="Jawa Timur">Jawa Timur</option><option value="Sulawesi Tengah">Sulawesi Tengah</option><option value="Jambi">Jambi</option><option value="Lampung">Lampung</option><option value="Papua Barat Daya">Papua Barat Daya</option><option value="Jawa Tengah">Jawa Tengah</option><option value="Bali">Bali</option></select></div>
+                            <div class="w-full md:flex-1"><label class="block text-sm font-bold text-primary dark:text-primary-light mb-1">Kabupaten/Kota <span class="text-red-500">*</span></label><input type="text" id="kab_search" name="kabkota" required class="w-full border border-primary/40 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white" placeholder="Misal: Kota Mataram"></div>
+                            <button type="button" onclick="tarikDataWilayah()" class="w-full md:w-auto bg-slate-600 hover:bg-slate-700 text-white font-medium py-2.5 px-6 rounded-lg transition-colors flex items-center justify-center"><i data-lucide="cloud-download" class="w-5 h-5 mr-2"></i> Cari Data</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:col-span-2 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-200 dark:border-slate-600">
+                            <div><label class="block text-sm font-medium mb-1">Petugas 1 (Ketua Tim) *</label><input type="text" name="nama_petugas_1" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>
+                            <div><label class="block text-sm font-medium mb-1">Petugas 2</label><input type="text" name="nama_petugas_2" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>
+                            <div><label class="block text-sm font-medium mb-1">Petugas 3</label><input type="text" name="nama_petugas_3" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>
+                            <div><label class="block text-sm font-medium mb-1">Petugas 4</label><input type="text" name="nama_petugas_4" class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>
+                        </div>
+                        <div><label class="block text-sm font-medium mb-1">Tanggal Pemantauan *</label><input type="date" name="tanggal" id="tanggal" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white"></div>
+                        <div><label class="block text-sm font-medium mb-1">Nama Instansi Dinas *</label><input type="text" name="nama_sasaran" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white" placeholder="Misal: Dinas Pendidikan Kota Mataram"></div>
+                        <div class="md:col-span-2 pt-2 border-t border-gray-100 dark:border-slate-700 mt-2"><label class="block text-sm font-medium mb-1 flex items-center"><i data-lucide="link" class="w-4 h-4 mr-2 text-primary"></i> Link Bukti Pemantauan (Google Drive) *</label><input type="url" name="link_bukti" required class="w-full border border-gray-300 dark:border-slate-600 rounded-lg p-2.5 bg-white dark:bg-slate-800 text-gray-900 dark:text-white" placeholder="https://drive.google.com/drive/folders/..."></div>
+                    </div>
+                    <div class="pt-6 border-t flex justify-end mt-8"><button type="button" onclick="nextTab()" class="bg-primary hover:bg-primary-dark text-white font-medium py-3 px-8 rounded-lg shadow-md flex items-center">Mulai Isi Instrumen <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i></button></div>
+                </div>
+
+                <div id="questions-container" class="hidden"></div>
+                <div id="action-buttons" class="hidden pt-6 border-t border-gray-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4 mt-8">
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto"><button type="button" onclick="generatePDFReport(true)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200 font-medium py-2.5 px-4 rounded-lg flex border"><i data-lucide="printer" class="w-5 h-5 mr-2"></i> Cetak Blanko Kosong</button><button type="button" onclick="generatePDFReport(false)" class="bg-blue-50 hover:bg-blue-100 text-primary-dark dark:bg-primary-dark/20 dark:text-primary-light font-medium py-2.5 px-4 rounded-lg flex border"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Cetak Laporan Terisi</button></div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto ml-auto"><button type="button" id="btnPrev" onclick="prevTab()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-slate-700 dark:text-gray-200 font-medium py-2.5 px-6 rounded-lg flex"><i data-lucide="chevron-left" class="w-5 h-5 mr-1"></i> Sebelumnya</button><button type="button" id="btnNext" onclick="nextTab()" class="bg-primary hover:bg-primary-dark text-white font-medium py-2.5 px-6 rounded-lg flex hidden">Selanjutnya <i data-lucide="chevron-right" class="w-5 h-5 ml-1"></i></button><button type="button" id="submitBtn" onclick="submitAll()" class="bg-secondary hover:bg-secondary-dark text-white font-medium py-2.5 px-8 rounded-lg flex"><i data-lucide="send" class="w-5 h-5 mr-2"></i> Kirim & Simpan Data</button></div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <div id="loadingModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden z-50 flex items-center justify-center backdrop-blur-sm"><div class="bg-white dark:bg-slate-800 rounded-xl p-8 flex flex-col items-center shadow-2xl border dark:border-slate-700"><div class="loader rounded-full border-4 border-t-4 border-primary h-12 w-12 mb-4"></div><h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100" id="loadingTitle">Memproses...</h2><p class="text-gray-500 mt-2 text-sm text-center" id="loadingText">Mohon tunggu sebentar.</p></div></div>
+    <div id="successModal" class="fixed inset-0 bg-gray-900 bg-opacity-60 hidden z-50 flex items-center justify-center backdrop-blur-sm"><div class="bg-white dark:bg-slate-800 rounded-xl p-8 max-w-sm w-full mx-4 shadow-2xl text-center"><div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6"><i data-lucide="check" class="h-8 w-8 text-green-600"></i></div><h3 class="text-xl font-medium text-gray-900 dark:text-white mb-2">Berhasil Disimpan!</h3><button onclick="closeSuccessModal()" class="w-full inline-flex justify-center rounded-lg bg-primary px-4 py-2 text-white font-medium hover:bg-primary-dark mt-4">Kembali ke Awal</button></div></div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby52IF687IbilCPLMKHC9UTFJ3xyG9Qljyq8_xtc0B14V_Z4KwR0nnaOpKA9-OJXqG5/exec'; 
+        let completedTabs = new Set(); let activeInstrumentId = 'identitas';
+
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) { document.documentElement.classList.add('dark'); }
+        document.getElementById('themeToggleBtn').addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'; });
+
+        const sideMenu = [{ id: 'identitas', title: 'Identitas Wilayah', icon: 'map-pin' }, { id: 'dinas', title: 'Dinas Kab/Kota', icon: 'building-2' }];
+        const instruments = [{
+            id: 'dinas', title: 'Dinas Kab/Kota',
+            sections: [
+                { title: 'A. Tata Kelola dan Koordinasi', questions: [{ id: 'KAB-1.1', text: 'Apakah Panitia Penyelenggara TKA Tingkat Kabupaten/Kota (Dinas/Kemenag) sudah dibentuk dan memiliki SK resmi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Tanggal SK:' }, { id: 'KAB-1.2', text: 'Apakah Dinas/Kemenag sudah sosialisasi kebijakan dan teknis pelaksanaan TKA kepada SD/MI dan SMP/MTs?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Arsip Undangan:' }, { id: 'KAB-1.3', text: 'Apakah ada edaran resmi mengatur batas kewajaran biaya untuk sekolah menumpang?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-1.4', text: 'Apakah ada koordinasi formal dengan pihak PLN dan ISP daerah untuk mencegah pemadaman?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / MoU:' }] },
+                { title: 'B. Penyiapan Instrumen Soal Daerah', questions: [{ id: 'KAB-2.1', text: 'Apakah Dinas/Kemenag sudah membentuk Tim Penulis Soal TKA?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Jumlah Guru Penulis:' }, { id: 'KAB-2.2', text: 'Apakah penulis soal menandatangani Pakta Integritas bebas plagiarisme?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-2.3', text: 'Apakah jumlah paket soal yang dibuat memenuhi syarat (utama, susulan, cadangan)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-2.4', text: 'Apakah draf soal diserahkan kepada Dinas Provinsi untuk ditelaah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan (No BAST):' }, { id: 'KAB-2.5', text: 'Apakah telah dilakukan telaah soal oleh tim ahli sebelum dirakit?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
+                { title: 'C. Pengelolaan Data Peserta dan Sekolah', questions: [{ id: 'KAB-3.1', text: 'Apakah penetapan sekolah penyelenggara dilakukan berdasarkan verifikasi infrastruktur?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Total Mandiri / Menumpang:' }, { id: 'KAB-3.2', text: 'Apakah verifikasi DNS dan validasi SPTJM setiap sekolah tuntas 100% di sistem?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Persentase Penyelesaian:' }, { id: 'KAB-3.3', text: 'Apakah DNT dan Kartu Peserta dicetak sebelum simulasi/gladi bersih dimulai?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
+                { title: 'D. SDM dan Penanganan Kendala Teknis', questions: [{ id: 'KAB-4.1', text: 'Apakah SK Pengawas diterbitkan dengan sistem silang murni?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-4.2', text: 'Apakah Posko Bantuan (Helpdesk) Tim Teknis Kabupaten/Kota sudah aktif?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-4.3', text: 'Apakah Tim Teknis siap melayani pembukaan Token Offline bagi daerah blank spot?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] }
+            ]
+        }];
+
+        function init() { document.getElementById('tanggal').valueAsDate = new Date(); renderAllForms(); switchTab(activeInstrumentId); lucide.createIcons(); }
+        function renderNavigation() {
+            const nav = document.getElementById('nav-menu'); nav.innerHTML = '';
+            sideMenu.forEach(inst => {
+                const isActive = inst.id === activeInstrumentId; const isCompleted = completedTabs.has(inst.id);
+                let liClass = isActive ? "bg-primary/10 text-primary border-l-4 border-primary font-semibold" : (isCompleted ? "bg-secondary/20 text-secondary-dark border-l-4 border-secondary font-semibold" : "text-gray-600 border-l-4 border-transparent hover:bg-gray-100");
+                nav.innerHTML += `<li><a href="#" onclick="switchTab('${inst.id}')" class="flex items-center px-6 py-3 text-sm cursor-pointer ${liClass}"><i data-lucide="${inst.icon}" class="w-5 h-5 mr-3 ${isActive?'text-primary':''}"></i><span class="flex-1">${inst.title}</span>${isCompleted?'<i data-lucide="check-circle" class="w-4 h-4 ml-auto text-secondary"></i>':''}</a></li>`;
+            }); lucide.createIcons();
+        }
+        function cekIdentitasValid() { const req = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'nama_sasaran', 'link_bukti']; for(let r of req) { let el=document.querySelector(`[name="${r}"]`); if(!el.value.trim()){ el.reportValidity(); return false;} } return true; }
+        function cekTabValid(tabId) { if(tabId==='identitas') return cekIdentitasValid(); const form = new FormData(document.getElementById('main-form')); const inst=instruments.find(i=>i.id===tabId); if(!inst) return true; for(let sec of inst.sections){ for(let q of sec.questions){ if(!form.get(`${q.id}_ans`)){ const el=document.querySelector(`[name="${q.id}_ans"]`); if(el) {el.required=true; el.reportValidity();} return false; } } } return true; }
+        function prevTab() { const idx = sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx>0) switchTab(sideMenu[idx-1].id); }
+        function nextTab() { if(activeInstrumentId==='identitas'){ if(cekIdentitasValid()){ completedTabs.add('identitas'); switchTab('dinas'); } return; } if(cekTabValid(activeInstrumentId)){ completedTabs.add(activeInstrumentId); const idx=sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx<sideMenu.length-1) switchTab(sideMenu[idx+1].id); } }
+        function switchTab(id) {
+            if(id!=='identitas' && !cekIdentitasValid()){ id='identitas'; } activeInstrumentId=id; renderNavigation();
+            document.getElementById('identitas-container').classList.toggle('hidden', id!=='identitas'); document.getElementById('questions-container').classList.toggle('hidden', id==='identitas'); document.getElementById('action-buttons').classList.toggle('hidden', id==='identitas'); document.getElementById('header-title').innerText = id==='identitas'?'Identitas Wilayah':`Instrumen: Dinas Kab/Kota`;
+            if(id!=='identitas'){ document.getElementById('btnNext').classList.add('hidden'); document.getElementById('submitBtn').classList.remove('hidden'); }
+            instruments.forEach(inst => { const wrapper=document.getElementById(`tab-content-${inst.id}`); if(wrapper) wrapper.classList.toggle('hidden', inst.id!==id); }); window.scrollTo(0,0);
+        }
+        function renderAllForms() {
+            const cont = document.getElementById('questions-container'); cont.innerHTML='';
+            instruments.forEach(inst => {
+                let html = `<div id="tab-content-${inst.id}" class="hidden">`;
+                inst.sections.forEach(sec => {
+                    html += `<div class="bg-gray-50 dark:bg-slate-750 p-5 rounded-lg border dark:border-slate-600 mb-8"><h4 class="font-semibold text-lg mb-4 text-gray-800 dark:text-gray-100">${sec.title}</h4><div class="space-y-6">`;
+                    sec.questions.forEach(q => {
+                        html += `<div class="bg-white dark:bg-slate-800 p-4 rounded border dark:border-slate-600"><p class="text-sm font-medium mb-3 text-gray-800 dark:text-gray-100"><span class="bg-primary/10 text-primary-dark px-2 py-1 rounded mr-2">${q.id}</span>${q.text} *</p><div class="flex flex-col md:flex-row gap-4">`;
+                        if(q.type==='radio'){ html+=`<div class="flex flex-wrap gap-4 md:w-1/2 pt-1">`+q.options.map(o=>`<label class="inline-flex items-center cursor-pointer bg-gray-50 dark:bg-slate-700 px-3 py-2 rounded-md"><input type="radio" name="${q.id}_ans" value="${o}" class="w-4 h-4 text-primary"><span class="ml-2 text-sm text-gray-700 dark:text-gray-200">${o}</span></label>`).join('')+`</div>`; }
+                        else html+=`<div class="md:w-1/2"><textarea name="${q.id}_ans" class="w-full border rounded-md p-2 text-sm bg-white dark:bg-slate-700 dark:text-white" rows="3"></textarea></div>`;
+                        html+=`<div class="md:w-1/2"><label class="block text-xs font-medium text-gray-500 mb-1">${q.noteLabel}</label><textarea name="${q.id}_note" class="w-full border rounded-md p-2 text-sm bg-gray-50 dark:bg-slate-700 dark:text-white" rows="2"></textarea></div></div></div>`;
+                    }); html+=`</div></div>`;
+                }); html+=`</div>`; cont.innerHTML += html;
+            });
+        }
+        async function tarikDataWilayah() {
+            const prov = document.getElementById('prov_search').value; const kab = document.getElementById('kab_search').value.trim();
+            if(!prov || !kab){ alert("Isi Provinsi dan Kabupaten/Kota!"); return; }
+            document.getElementById('loadingModal').classList.remove('hidden');
+            try {
+                const res = await fetch(SCRIPT_URL, { method: 'POST', headers: {'Content-Type':'text/plain'}, body: JSON.stringify({ action: "get_data", type: "dinas", provinsi: prov, kabkota: kab }) });
+                const result = await res.json();
+                if(result.result==="success" && result.data.identitas) {
+                    const iden = result.data.identitas; document.querySelector('[name="nama_sasaran"]').value = iden.sasaran||''; document.querySelector('[name="link_bukti"]').value = iden.link_bukti||'';
+                    if(iden.tanggal) document.querySelector('[name="tanggal"]').value = iden.tanggal.split('T')[0];
+                    const pts = (iden.petugas||'').split(', '); for(let i=1;i<=4;i++) if(pts[i-1]) document.querySelector(`[name="nama_petugas_${i}"]`).value = pts[i-1];
+                    const jaw = result.data.jawaban; completedTabs.clear();
+                    instruments.forEach(inst=>{ let done=false; inst.sections.forEach(sec=>{ sec.questions.forEach(q=>{ const k=inst.title+"_"+q.id; if(jaw[k]){ done=true; const elNote=document.querySelector(`[name="${q.id}_note"]`); if(elNote) elNote.value=jaw[k].catatan||''; if(q.type==='radio'){const r=document.querySelector(`input[name="${q.id}_ans"][value="${jaw[k].status}"]`); if(r) r.checked=true;}else{const t=document.querySelector(`[name="${q.id}_ans"]`); if(t) t.value=jaw[k].status||'';} } }); }); if(done) completedTabs.add(inst.id); });
+                    renderNavigation(); alert("Data ditemukan dan ditarik!");
+                } else alert("Data belum ada, silakan isi baru.");
+            } catch(e) { alert("Gagal tarik data."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
+        }
+        async function submitAll() {
+            if(!cekTabValid(activeInstrumentId)) return;
+            const form = new FormData(document.getElementById('main-form'));
+            const data = { action: "save_data", timestamp: new Date().toISOString(), petugas: [form.get('nama_petugas_1'),form.get('nama_petugas_2'),form.get('nama_petugas_3'),form.get('nama_petugas_4')].filter(n=>n).join(', '), tanggal: form.get('tanggal'), provinsi: document.getElementById('prov_search').value, kabkota: document.getElementById('kab_search').value, npsn: "", sasaran: form.get('nama_sasaran'), link_bukti: form.get('link_bukti'), jawaban: [] };
+            instruments[0].sections.forEach(sec=>{ sec.questions.forEach(q=>{ const a=form.get(`${q.id}_ans`); if(a) data.jawaban.push({kategori: instruments[0].title, kode: q.id, pertanyaan: q.text, status: a, catatan: form.get(`${q.id}_note`)||''}); }); });
+            document.getElementById('loadingModal').classList.remove('hidden');
+            try { const res = await fetch(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(data)}); const r = await res.json(); if(r.result!=='success') throw new Error(); document.getElementById('successModal').classList.remove('hidden'); } catch(e) { alert("Gagal mengirim."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
+        }
+        function closeSuccessModal() { document.getElementById('successModal').classList.add('hidden'); window.scrollTo(0,0); switchTab('identitas'); }
+        function generatePDFReport(isBlank) {
+            const f = new FormData(document.getElementById('main-form')); let w = window.open('','','width=900,height=650');
+            let h = `<html><head><title>Cetak</title><style>body{font-family:Arial;padding:20px;font-size:14px}.head{border-bottom:3px solid #067ac1;padding-bottom:15px;margin-bottom:20px}.ttl{text-align:center;font-weight:bold;margin-bottom:30px}table{width:100%;border-collapse:collapse;margin-bottom:30px}td,th{border:1px solid #333;padding:8px}th{background:#f0f0f0;width:35%}.st{background:#067ac1;color:#fff;padding:8px;font-weight:bold;margin:20px 0 10px;-webkit-print-color-adjust:exact}.q{margin-bottom:15px;border-bottom:1px dashed #ccc;padding-bottom:10px}.bx{border:1px solid #666;min-height:50px;padding:5px;margin-top:5px}</style></head><body><div class="head">INSTRUMEN PEMANTAUAN TKA 2026 - DINAS KAB/KOTA</div>`;
+            h += `<table><tr><th>Provinsi / Kab-Kota</th><td>${isBlank?'':document.getElementById('prov_search').value+' / '+document.getElementById('kab_search').value}</td></tr><tr><th>Instansi</th><td>${isBlank?'':f.get('nama_sasaran')}</td></tr></table>`;
+            instruments[0].sections.forEach(s=>{ h+=`<div class="st">${s.title}</div>`; s.questions.forEach(q=>{ let a=isBlank?'':f.get(`${q.id}_ans`)||''; let n=isBlank?'':f.get(`${q.id}_note`)||''; h+=`<div class="q"><b>[${q.id}]</b> ${q.text}<div style="display:flex;gap:15px;margin-top:5px">`+(q.type==='radio'?q.options.map(o=>`<span>${(!isBlank&&a===o)?'☑':'☐'} ${o}</span>`).join(''):`<div class="bx w-full">${a}</div>`)+`</div><div style="font-style:italic;color:#555;margin-top:5px">Catatan: ${isBlank?'............':n}</div></div>`; }); });
+            h += `<script>window.onload=function(){setTimeout(function(){window.print();window.close();},500)};<\/script></body></html>`; w.document.write(h); w.document.close();
+        }
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Pemantauan TKA 2026</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', 
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#067ac1', light: '#088de0', dark: '#05629b' },
+                        secondary: { DEFAULT: '#f9a703', light: '#fbb72c', dark: '#d99002' }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .dark body { background-color: #0f172a; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 transition-colors duration-300">
+    
+    <!-- Tombol Dark Mode -->
+    <div class="absolute top-4 right-4">
+        <button id="themeToggleBtn" class="p-2 rounded-full text-gray-500 hover:bg-gray-200 dark:text-gray-400 dark:hover:bg-slate-800 transition-colors focus:outline-none" title="Ubah Tema">
+            <i data-lucide="moon" id="themeIconDark" class="w-6 h-6"></i>
+            <i data-lucide="sun" id="themeIconLight" class="w-6 h-6 hidden"></i>
+        </button>
+    </div>
+
+    <!-- Container Utama -->
+    <div class="max-w-3xl w-full bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100 dark:border-slate-700 text-center transform transition-all hover:shadow-2xl">
+        
+        <!-- Header / Logo -->
+        <div class="mb-10">
+            <img src="logo pengawasan.png" alt="Logo" class="w-24 h-24 mx-auto mb-6 object-cover rounded-full shadow-md border-4 border-white dark:border-slate-700" onerror="this.outerHTML='<i data-lucide=\'clipboard-check\' class=\'w-20 h-20 text-primary mx-auto mb-6\'></i>'; lucide.createIcons();">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-2 tracking-tight">Portal Instrumen Pemantauan TKA</h1>
+            <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base">Tahun Anggaran 2026</p>
+        </div>
+
+        <!-- Garis Pemisah -->
+        <div class="w-24 h-1 bg-primary mx-auto rounded-full mb-10"></div>
+
+        <p class="text-gray-600 dark:text-gray-300 mb-6 font-medium">Silakan pilih instrumen yang akan Anda kerjakan:</p>
+
+        <!-- Menu Pilihan (Grid 3 Kolom) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- Tombol Dinas -->
+            <a href="dinas.html" class="group flex flex-col items-center justify-center p-6 bg-gray-50 hover:bg-primary/5 dark:bg-slate-700 dark:hover:bg-slate-600 border border-gray-200 dark:border-slate-600 hover:border-primary dark:hover:border-primary-light rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/40 text-primary dark:text-primary-light rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="building-2" class="w-8 h-8"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-white text-lg">Dinas Kab/Kota</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Instrumen tata kelola & koordinasi wilayah.</p>
+            </a>
+
+            <!-- Tombol BPMP -->
+            <a href="bpmp.html" class="group flex flex-col items-center justify-center p-6 bg-gray-50 hover:bg-secondary/5 dark:bg-slate-700 dark:hover:bg-slate-600 border border-gray-200 dark:border-slate-600 hover:border-secondary dark:hover:border-secondary rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 text-secondary-dark dark:text-secondary rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="monitor-check" class="w-8 h-8"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-white text-lg">BPMP</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Instrumen pemantauan fungsi & infrastruktur.</p>
+            </a>
+
+            <!-- Tombol Sekolah -->
+            <a href="sekolah.html" class="group flex flex-col items-center justify-center p-6 bg-gray-50 hover:bg-green-50 dark:bg-slate-700 dark:hover:bg-slate-600 border border-gray-200 dark:border-slate-600 hover:border-green-500 dark:hover:border-green-500 rounded-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <i data-lucide="school" class="w-8 h-8"></i>
+                </div>
+                <h3 class="font-bold text-gray-800 dark:text-white text-lg">Sekolah & Siswa</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Instrumen satuan pendidikan & wawancara.</p>
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Footer Copyright -->
+    <div class="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
+        <p>Versi Final (Master Data) &copy; 2026</p>
+        <p class="mt-1">Dikembangkan oleh <a href="mailto:meldi.chaniko@gmail.com" class="font-medium text-primary hover:text-primary-dark dark:text-primary-light dark:hover:text-white transition-colors" title="Kirim Email ke Developer">Meldi Chaniko</a></p>
+    </div>
+
+    <script>
+        // Inisiasi Icon
+        lucide.createIcons();
+
+        // Fitur Dark Mode
+        function initTheme() {
+            const themeIconDark = document.getElementById('themeIconDark');
+            const themeIconLight = document.getElementById('themeIconLight');
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                themeIconDark.classList.add('hidden');
+                themeIconLight.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeIconLight.classList.add('hidden');
+                themeIconDark.classList.remove('hidden');
+            }
+        }
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            document.getElementById('themeIconDark').classList.toggle('hidden', isDark);
+            document.getElementById('themeIconLight').classList.toggle('hidden', !isDark);
+        });
+
+        initTheme();
+    </script>
+</body>
+</html>

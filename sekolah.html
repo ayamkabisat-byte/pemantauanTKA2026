@@ -100,63 +100,257 @@
         document.getElementById('themeToggleBtn').addEventListener('click', () => { document.documentElement.classList.toggle('dark'); localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light'; });
 
         const sideMenu = [{ id: 'identitas', title: 'Identitas Sekolah', icon: 'map-pin' }, { id: 'sekolah', title: 'Satuan Pendidikan', icon: 'school' }, { id: 'petugas', title: 'Petugas Ruang Ujian', icon: 'user-cog' }, { id: 'siswa1', title: 'Wawancara Siswa 1', icon: 'user' }, { id: 'siswa2', title: 'Wawancara Siswa 2', icon: 'users' }];
+        
         const instruments = [
             {
                 id: 'sekolah', title: 'Satuan Pendidikan',
                 sections: [
-                    { title: 'A. Kepanitiaan, Sosialisasi, dan Anggaran', questions: [{ id: 'SEK-1.1', text: 'Apakah Panitia Pelaksana TKA di sekolah sudah dibentuk melalui SK?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-1.2', text: 'Apakah sekolah mensosialisasikan jadwal dan tata tertib kepada orang tua?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Bukti:' }, { id: 'SEK-1.3', text: 'Apakah dana persiapan TKA dialokasikan dalam BOSP/ARKAS?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-1.4', text: 'Apakah Kepsek mengirimkan nama guru ke Dinas untuk Pengawas Silang?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                    { title: 'B. Administrasi Peserta Ujian', questions: [{ id: 'SEK-2.1', text: 'Apakah sekolah mengecek ulang data siswa pada DNS sebelum difinalisasi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-2.2', text: 'Apakah SPTJM ditandatangani dan diunggah ke laman TKA?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-2.3', text: 'Apakah Kartu Peserta Ujian dibagikan langsung kepada siswa?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                    { title: 'C. Infrastruktur Komputer dan Jadwal', questions: [{ id: 'SEK-3.1', text: 'Apakah jumlah komputer diverifikasi sesuai rasio + 10% cadangan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Rasio PC:' }, { id: 'SEK-3.2', text: 'Apakah spesifikasi komputer klien dan jaringan sesuai pedoman?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-3.3', text: 'Apakah sekolah sudah mengatur final status pelaksanaan dan moda?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-3.4', text: '(Jika menumpang) Apakah kesepakatan biaya diselesaikan dengan tuan rumah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-3.5', text: 'Apakah pembagian ruang, gelombang, dan sesi selesai diatur?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-3.6', text: 'Apakah pengaturan sesi hari Jumat disesuaikan dengan waktu ibadah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-3.7', text: 'Apakah disediakan aplikasi Screen Reader bagi siswa low vision?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                    { title: 'D. Pelaksanaan dan Keamanan', questions: [{ id: 'SEK-4.1', text: 'Apakah suasana ruang ujian dijaga tenang?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-4.2', text: 'Apakah Kartu Login dicetak 1 hari sebelum ujian?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-4.3', text: 'Apakah Berita Acara diisi lengkap dan ditandatangani di akhir sesi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-4.4', text: 'Jika server error, apakah dilaporkan melalui web TKA atau posko?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-4.5', text: 'Apakah ada indikasi pungutan liar kepada orang tua murid?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'SEK-4.6', text: 'Apakah pengaturan tempat duduk peserta di ruang ujian memiliki jarak yang memadai (tidak terlalu rapat)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] }
+                    {
+                        title: 'A. Kepanitiaan, Sosialisasi, dan Anggaran',
+                        questions: [
+                            { id: 'SEK-1.1', text: 'Apakah Panitia Pelaksana TKA di sekolah (mencakup Kepsek, Proktor, Teknisi, Petugas Pendataan) sudah dibentuk melalui SK Kepala Sekolah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-1.2', text: 'Apakah sekolah sudah mensosialisasikan jadwal, mata uji, dan tata tertib kepada guru, murid, dan orang tua?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Bukti Sosialisasi:' },
+                            { id: 'SEK-1.3', text: 'Apakah dana persiapan dan pelaksanaan TKA sudah dialokasikan dengan jelas dalam anggaran sekolah (BOSP/ARKAS)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-1.4', text: 'Apakah Kepala Sekolah sudah mengirimkan nama-nama gurunya ke Dinas untuk dijadikan Pengawas Silang di sekolah lain?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Tanda Bukti:' }
+                        ]
+                    },
+                    {
+                        title: 'B. Administrasi Peserta Ujian',
+                        questions: [
+                            { id: 'SEK-2.1', text: 'Apakah sekolah melakukan pengecekan ulang data siswa pada DNS dengan melibatkan wali kelas dan siswa sebelum difinalisasi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-2.2', text: 'Apakah Kepala Sekolah sudah menandatangani SPTJM di atas materai dan mengunggahnya ke laman TKA tepat waktu?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-2.3', text: 'Apakah Kartu Peserta Ujian TKA sudah dibagikan secara langsung kepada seluruh siswa peserta tes?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'C. Infrastruktur Komputer, Rasio, dan Penjadwalan',
+                        questions: [
+                            { id: 'SEK-3.1', text: 'Apakah jumlah komputer memadai dan diverifikasi sesuai perbedaan rasio (1:12 Formal, 1:6 Non-Formal) + 10% cadangan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Rasio / Jumlah PC:' },
+                            { id: 'SEK-3.2', text: 'Apakah spesifikasi komputer proktor, klien (min. RAM 2GB, layar 11.6"), dan jaringan sesuai dengan pedoman teknis Juknis?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan Cek Acak:' },
+                            { id: 'SEK-3.3', text: 'Apakah sekolah sudah mengatur secara final status pelaksanaannya (mandiri/menumpang) dan modanya (daring/semi daring)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-3.4', text: '(Jika menumpang) Apakah kesepakatan jadwal, patungan biaya listrik/internet, dan transportasi siswa sudah diselesaikan dengan tuan rumah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-3.5', text: 'Apakah pembagian siswa ke dalam ruang, gelombang, dan sesi ujian sudah selesai diatur di laman manajemen TKA?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-3.6', text: 'Apakah pengaturan sesi pada hari Jumat (jika ada) sudah disesuaikan agar selesai sebelum waktu ibadah shalat Jumat?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-3.7', text: 'Apakah sekolah menyediakan aplikasi Screen Reader atau pendamping pembaca soal yang bersertifikat bagi siswa low vision (jika ada)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'D. Manajemen Pelaksanaan dan Keamanan Ujian',
+                        questions: [
+                            { id: 'SEK-4.1', text: 'Apakah suasana di sekitar ruang ujian dijaga agar tetap tenang dan tidak terganggu oleh aktivitas siswa lain?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan Observasi Lingkungan:' },
+                            { id: 'SEK-4.2', text: 'Apakah Kartu Login peserta dan Daftar Hadir sudah selesai dicetak minimal 1 hari sebelum ujian dilaksanakan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-4.3', text: 'Apakah Berita Acara Pelaksanaan TKA selalu dibuat, diisi lengkap, dan ditandatangani Proktor serta Pengawas di akhir sesi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-4.4', text: 'Jika terjadi masalah server/error massal, apakah Proktor melaporkannya melalui Tiket Bantuan di web TKA atau menelepon posko?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'SEK-4.5', text: 'Apakah ada indikasi pungutan liar (pungli) kepada orang tua murid dengan alasan biaya tambahan fasilitas TKA yang tidak wajar?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan Uji Petik / Wawancara:' },
+                            { id: 'SEK-4.6', text: 'Apakah pengaturan tempat duduk peserta di ruang ujian memiliki jarak yang memadai (tidak terlalu rapat)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'petugas', title: 'Petugas Ruang Ujian',
                 sections: [
-                    { title: 'A. PENGAWAS RUANG', questions: [{ id: 'PGW-1', text: 'Hadir 45 menit sebelum ujian dan masuk 30 menit sebelum mulai?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-2', text: 'Menandatangani Pakta Integritas sebelum bertugas?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-3', text: 'Membacakan Tata Tertib Ujian dengan lantang dan jelas?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-4', text: 'Memastikan peserta tidak membawa HP/Kalkulator?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-5', text: 'Mencocokkan wajah siswa dengan foto di Kartu Peserta?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-6', text: 'Memastikan siswa mengikuti Sesi Latihan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-7', text: 'Memberitahukan sandi Token tepat saat sesi dimulai?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-8', text: 'Tidak memberikan bantuan/isyarat terkait konten soal?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PGW-9', text: 'Menjaga ketenangan dan tidak mengobrol?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                    { title: 'B. PROKTOR', questions: [{ id: 'PRK-1', text: 'Menginstal Proktor Browser/VirtualBox dengan benar?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-2', text: 'Berhasil Sinkronisasi data soal dari server pusat (Khusus Semi Daring)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-3', text: 'Merilis Token di aplikasi dan menyerahkan ke Pengawas?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-4', text: 'Memantau status aktif peserta di layar aplikasi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-5', text: 'Cepat tanggap melakukan Reset Login jika error?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-6', text: 'Mengunggah data jawaban setelah sesi selesai (Khusus Semi Daring)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'PRK-7', text: 'Paham alur meminta Token Offline jika blank spot?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                    { title: 'C. TEKNISI', questions: [{ id: 'TKN-1', text: 'Memastikan jaringan LAN dan daya listrik stabil?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'TKN-2', text: 'Memastikan jalur kabel listrik di lab aman?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'TKN-3', text: 'Selalu siaga jika ada laporan kerusakan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] }
+                    {
+                        title: 'A. PENGAWAS RUANG (Dari Sekolah Lain / Silang Murni)',
+                        questions: [
+                            { id: 'PGW-1', text: '(Pra) Hadir di lokasi tes minimal 45 menit sebelum ujian dimulai, dan masuk ruang pada 30 menit sebelum mulai.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-2', text: '(Pra) Telah menandatangani dokumen Pakta Integritas sebelum mulai bertugas mengawasi.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-3', text: '(Pelaksanaan) Membacakan Tata Tertib Ujian dengan suara lantang, jelas, dan ramah/mudah dimengerti anak.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-4', text: '(Pelaksanaan) Memastikan peserta tidak membawa HP, smartwatch, kalkulator, atau kamera ke meja ujian.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-5', text: '(Pelaksanaan) Mencocokkan wajah siswa yang duduk di depan layar dengan pasfoto di Kartu Peserta/Kartu Login.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-6', text: '(Pelaksanaan) Memastikan siswa mengikuti Sesi Latihan (10 Menit) untuk mengenali tombol aplikasi sebelum ujian utama.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-7', text: '(Pelaksanaan) Memberitahukan sandi Token ujian kepada peserta tepat saat sesi dimulai.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-8', text: '(Pelaksanaan) Tidak memberikan bantuan jawaban, isyarat, atau petunjuk apa pun terkait konten soal.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PGW-9', text: '(Pelaksanaan) Menjaga ketenangan ruangan: tidak mengobrol, mematikan HP pribadi, dan tidak merokok.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'B. PROKTOR',
+                        questions: [
+                            { id: 'PRK-1', text: '(Pra) Sudah menginstal dan mengatur aplikasi Proktor Browser atau VirtualBox & Exambrowser Admin dengan benar.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-2', text: '(Pra Khusus Semi Daring) Berhasil melakukan "Sinkronisasi" data soal dari server pusat ke server lokal sebelum hari ujian.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-3', text: '(Pelaksanaan) Merilis sandi Token ujian di aplikasi setiap kali sesi baru dimulai dan menyerahkannya kepada Pengawas.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-4', text: '(Pelaksanaan) Selalu memantau status aktif peserta di layar aplikasi proktor (online, mengerjakan, selesai).', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-5', text: '(Pelaksanaan) Cepat tanggap melakukan Reset Login jika komputer siswa tiba-tiba mati, error, atau logout paksa.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-6', text: '(Pasca Khusus Semi Daring) Wajib mengunggah (upload) data jawaban peserta ke server pusat segera setelah sesi selesai.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'PRK-7', text: '(Kondisi Khusus) Paham alur meminta persetujuan Token Offline dari admin Kabupaten jika blank spot internet.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'C. TEKNISI',
+                        questions: [
+                            { id: 'TKN-1', text: '(Pra) Memastikan jaringan kabel LAN, switch/hub, daya listrik (UPS), dan akses internet berfungsi stabil.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'TKN-2', text: '(Pra) Memastikan jalur kabel listrik di lab aman dan tidak berisiko tersandung oleh anak-anak.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' },
+                            { id: 'TKN-3', text: '(Pelaksanaan) Selalu siaga di sekitar luar ruang ujian dan siap masuk cepat jika ada laporan kerusakan.', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'siswa1', title: 'Wawancara Siswa 1',
                 sections: [
-                    { title: 'Data Responden 1', questions: [{ id: 'SIS1-NAMA', text: 'Nama Lengkap Siswa', type: 'short_text', noteLabel: 'Kelas:' }] },
-                    { title: 'A. Persiapan', questions: [{ id: 'SIS1-1', text: 'Guru sudah menjelaskan cara ikut ujian komputer.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-2', text: 'Saya sudah mengecek ejaan nama di DNS.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }] },
-                    { title: 'B. Pelaksanaan', questions: [{ id: 'SIS1-3', text: 'Penjelasan Pengawas sangat jelas dan ramah.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-4', text: 'Latihan awal sangat membantu mencoba mouse.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-5', text: 'Layar ujiannya user friendly (mudah digunakan), hurufnya mudah dibaca, gambarnya jelas, dan cara memilih jawaban tidak membingungkan.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-6', text: 'Ukuran tulisan cukup besar.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-7', text: 'Suasana tenang, saya bisa berkonsentrasi.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS1-8', text: 'Kalau error, Proktor langsung membantu.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }] },
-                    { title: 'C. Pendapat Bebas', questions: [{ id: 'SIS1-9', text: 'Apa yang paling gampang dari ujian komputer dibanding kertas?', type: 'text', noteLabel: 'Tambahan:' }] }
+                    {
+                        title: 'Data Responden 1',
+                        questions: [
+                            { id: 'SIS1-NAMA', text: 'Nama Lengkap Siswa', type: 'short_text', noteLabel: 'Kelas / Keterangan:' }
+                        ]
+                    },
+                    {
+                        title: 'A. Persiapan Sekolah',
+                        questions: [
+                            { id: 'SIS1-1', text: 'Guru di sekolah sudah menjelaskan cara ikut ujian komputer, aturan yang tidak boleh dilakukan, dan lama waktu ujian.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-2', text: 'Bulan lalu, saya sudah mengecek ejaan nama saya dan foto saya di kertas pendaftaran (DNS) dan semuanya benar.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'B. Suasana Ujian dan Aplikasi',
+                        questions: [
+                            { id: 'SIS1-3', text: 'Penjelasan dari Bapak/Ibu Pengawas di ruangan sangat jelas, ramah, dan mudah dipahami.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-4', text: 'Latihan awal selama 10 menit tadi sangat membantu saya untuk mencoba pakai mouse dan belajar mengeklik jawaban.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-5', text: 'Layar ujiannya user friendly (mudah digunakan), hurufnya mudah dibaca, gambarnya jelas, dan cara memilih jawaban tidak membingungkan.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-6', text: 'Ukuran tulisan di layar komputer cukup besar dan mudah dibaca.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-7', text: 'Suasana di ruangan ujian tadi sangat tenang, tidak berisik, jadi saya bisa berkonsentrasi mengerjakan soal.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS1-8', text: 'Kalau komputer saya sempat error, guru yang jaga (Proktor) langsung cepat membantu memperbaikinya.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'C. Pendapat Bebas',
+                        questions: [
+                            { id: 'SIS1-9', text: 'Menurut kamu, bagian apa yang paling enak atau paling gampang dari ujian pakai komputer ini dibandingkan ujian pakai kertas?', type: 'text', noteLabel: 'Tambahan:' },
+                            { id: 'SIS1-10', text: 'Masalah apa yang paling mengganggu waktu kamu ujian hari ini?', type: 'text', noteLabel: 'Tambahan:' }
+                        ]
+                    }
                 ]
             },
             {
                 id: 'siswa2', title: 'Wawancara Siswa 2',
                 sections: [
-                    { title: 'Data Responden 2', questions: [{ id: 'SIS2-NAMA', text: 'Nama Lengkap Siswa', type: 'short_text', noteLabel: 'Kelas:' }] },
-                    { title: 'A. Persiapan', questions: [{ id: 'SIS2-1', text: 'Guru sudah menjelaskan cara ikut ujian komputer.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-2', text: 'Saya sudah mengecek ejaan nama di DNS.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }] },
-                    { title: 'B. Pelaksanaan', questions: [{ id: 'SIS2-3', text: 'Penjelasan Pengawas sangat jelas dan ramah.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-4', text: 'Latihan awal sangat membantu mencoba mouse.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-5', text: 'Layar ujiannya user friendly (mudah digunakan), hurufnya mudah dibaca, gambarnya jelas, dan cara memilih jawaban tidak membingungkan.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-6', text: 'Ukuran tulisan cukup besar.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-7', text: 'Suasana tenang, saya bisa berkonsentrasi.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }, { id: 'SIS2-8', text: 'Kalau error, Proktor langsung membantu.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }] },
-                    { title: 'C. Pendapat Bebas', questions: [{ id: 'SIS2-9', text: 'Apa yang paling gampang dari ujian komputer dibanding kertas?', type: 'text', noteLabel: 'Tambahan:' }] }
+                    {
+                        title: 'Data Responden 2',
+                        questions: [
+                            { id: 'SIS2-NAMA', text: 'Nama Lengkap Siswa', type: 'short_text', noteLabel: 'Kelas / Keterangan:' }
+                        ]
+                    },
+                    {
+                        title: 'A. Persiapan Sekolah',
+                        questions: [
+                            { id: 'SIS2-1', text: 'Guru di sekolah sudah menjelaskan cara ikut ujian komputer, aturan yang tidak boleh dilakukan, dan lama waktu ujian.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-2', text: 'Bulan lalu, saya sudah mengecek ejaan nama saya dan foto saya di kertas pendaftaran (DNS) dan semuanya benar.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'B. Suasana Ujian dan Aplikasi',
+                        questions: [
+                            { id: 'SIS2-3', text: 'Penjelasan dari Bapak/Ibu Pengawas di ruangan sangat jelas, ramah, dan mudah dipahami.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-4', text: 'Latihan awal selama 10 menit tadi sangat membantu saya untuk mencoba pakai mouse dan belajar mengeklik jawaban.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-5', text: 'Layar ujiannya user friendly (mudah digunakan), hurufnya mudah dibaca, gambarnya jelas, dan cara memilih jawaban tidak membingungkan.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-6', text: 'Ukuran tulisan di layar komputer cukup besar dan mudah dibaca.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-7', text: 'Suasana di ruangan ujian tadi sangat tenang, tidak berisik, jadi saya bisa berkonsentrasi mengerjakan soal.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' },
+                            { id: 'SIS2-8', text: 'Kalau komputer saya sempat error, guru yang jaga (Proktor) langsung cepat membantu memperbaikinya.', type: 'radio', options: ['Sangat Setuju', 'Setuju', 'Tidak Setuju'], noteLabel: 'Catatan:' }
+                        ]
+                    },
+                    {
+                        title: 'C. Pendapat Bebas',
+                        questions: [
+                            { id: 'SIS2-9', text: 'Menurut kamu, bagian apa yang paling enak atau paling gampang dari ujian pakai komputer ini dibandingkan ujian pakai kertas?', type: 'text', noteLabel: 'Tambahan:' },
+                            { id: 'SIS2-10', text: 'Masalah apa yang paling mengganggu waktu kamu ujian hari ini?', type: 'text', noteLabel: 'Tambahan:' }
+                        ]
+                    }
                 ]
             }
         ];
 
-        function init() { document.getElementById('tanggal').valueAsDate = new Date(); renderAllForms(); switchTab(activeInstrumentId); lucide.createIcons(); }
+        function init() { 
+            document.getElementById('tanggal').valueAsDate = new Date(); 
+            renderAllForms(); 
+            switchTab(activeInstrumentId); 
+            lucide.createIcons(); 
+        }
+
+        // SILENT CHECKER
+        function isTabComplete(tabId) {
+            if (tabId === 'identitas') return cekIdentitasValid();
+            const form = new FormData(document.getElementById('main-form'));
+            const inst = instruments.find(i => i.id === tabId);
+            if (!inst) return true;
+            for (let sec of inst.sections) {
+                for (let q of sec.questions) {
+                    const ans = form.get(`${q.id}_ans`);
+                    if (!ans || String(ans).trim() === '') return false;
+                }
+            }
+            return true;
+        }
+
         function renderNavigation() {
             const nav = document.getElementById('nav-menu'); nav.innerHTML = '';
             sideMenu.forEach(inst => {
-                const isActive = inst.id === activeInstrumentId; const isCompleted = completedTabs.has(inst.id);
+                const isActive = inst.id === activeInstrumentId; 
+                if(inst.id !== 'identitas') {
+                    if(isTabComplete(inst.id)) completedTabs.add(inst.id);
+                    else completedTabs.delete(inst.id);
+                }
+                const isCompleted = completedTabs.has(inst.id);
                 let liClass = isActive ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light border-l-4 border-primary font-semibold" : (isCompleted ? "bg-secondary/20 text-secondary-dark dark:bg-secondary/20 dark:text-secondary border-l-4 border-secondary font-semibold" : "text-gray-600 dark:text-gray-400 border-l-4 border-transparent hover:bg-gray-100 dark:hover:bg-slate-800");
                 nav.innerHTML += `<li><a href="#" onclick="switchTab('${inst.id}')" class="flex items-center px-6 py-3 text-sm cursor-pointer ${liClass}"><i data-lucide="${inst.icon}" class="w-5 h-5 mr-3 ${isActive?'text-primary dark:text-primary-light':'text-gray-400 dark:text-gray-500'}"></i><span class="flex-1">${inst.title}</span>${isCompleted?'<i data-lucide="check-circle" class="w-4 h-4 ml-auto text-secondary dark:text-secondary"></i>':''}</a></li>`;
-            }); lucide.createIcons();
+            }); 
+            lucide.createIcons();
         }
-        function cekIdentitasValid() { const req = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'npsn', 'nama_sasaran', 'link_bukti']; for(let r of req) { let el=document.querySelector(`[name="${r}"]`); if(!el.value.trim()){ el.reportValidity(); return false;} } return true; }
-        function cekTabValid(tabId) { if(tabId==='identitas') return cekIdentitasValid(); const form = new FormData(document.getElementById('main-form')); const inst=instruments.find(i=>i.id===tabId); if(!inst) return true; for(let sec of inst.sections){ for(let q of sec.questions){ if(!form.get(`${q.id}_ans`)){ const el=document.querySelector(`[name="${q.id}_ans"]`); if(el) {el.required=true; el.reportValidity();} return false; } } } return true; }
-        function prevTab() { const idx = sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx>0) switchTab(sideMenu[idx-1].id); }
-        function nextTab() { if(activeInstrumentId==='identitas'){ if(cekIdentitasValid()){ completedTabs.add('identitas'); switchTab('sekolah'); } return; } if(cekTabValid(activeInstrumentId)){ completedTabs.add(activeInstrumentId); const idx=sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx<sideMenu.length-1) switchTab(sideMenu[idx+1].id); } }
+
+        function cekIdentitasValid() { 
+            const req = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'npsn', 'nama_sasaran', 'link_bukti']; 
+            for(let r of req) { 
+                let el=document.querySelector(`[name="${r}"]`); 
+                if(!el.value.trim()){ el.reportValidity(); return false;} 
+            } 
+            return true; 
+        }
+
+        function prevTab() { 
+            const idx = sideMenu.findIndex(m=>m.id===activeInstrumentId); 
+            if(idx>0) switchTab(sideMenu[idx-1].id); 
+        }
+
+        function nextTab() { 
+            if(activeInstrumentId==='identitas'){ 
+                if(cekIdentitasValid()){ completedTabs.add('identitas'); switchTab('sekolah'); } 
+                else { alert("Harap lengkapi seluruh data identitas (bertanda *) terlebih dahulu."); }
+                return; 
+            } 
+            
+            if(isTabComplete(activeInstrumentId)) completedTabs.add(activeInstrumentId); 
+            else completedTabs.delete(activeInstrumentId);
+
+            const idx=sideMenu.findIndex(m=>m.id===activeInstrumentId); 
+            if(idx<sideMenu.length-1) switchTab(sideMenu[idx+1].id); 
+        }
+
         function switchTab(id) {
-            if(id!=='identitas' && !cekIdentitasValid()){ id='identitas'; } activeInstrumentId=id; renderNavigation();
-            document.getElementById('identitas-container').classList.toggle('hidden', id!=='identitas'); document.getElementById('questions-container').classList.toggle('hidden', id==='identitas'); document.getElementById('action-buttons').classList.toggle('hidden', id==='identitas'); document.getElementById('header-title').innerText = id==='identitas'?'Identitas Sekolah':`Instrumen: ${sideMenu.find(m=>m.id===id).title}`;
-            if(id!=='identitas'){ const isLast = sideMenu.findIndex(m=>m.id===id) === sideMenu.length-1; document.getElementById('btnNext').classList.toggle('hidden', isLast); document.getElementById('submitBtn').classList.toggle('hidden', !isLast); }
-            instruments.forEach(inst => { const wrapper=document.getElementById(`tab-content-${inst.id}`); if(wrapper) wrapper.classList.toggle('hidden', inst.id!==id); }); window.scrollTo(0,0);
+            if(id!=='identitas' && !cekIdentitasValid()){ alert("Harap lengkapi identitas terlebih dahulu."); id='identitas'; } 
+            
+            if(activeInstrumentId !== 'identitas') {
+                if(isTabComplete(activeInstrumentId)) completedTabs.add(activeInstrumentId);
+                else completedTabs.delete(activeInstrumentId);
+            }
+
+            activeInstrumentId=id; 
+            renderNavigation();
+            
+            document.getElementById('identitas-container').classList.toggle('hidden', id!=='identitas'); 
+            document.getElementById('questions-container').classList.toggle('hidden', id==='identitas'); 
+            document.getElementById('action-buttons').classList.toggle('hidden', id==='identitas'); 
+            document.getElementById('header-title').innerText = id==='identitas'?'Identitas Sekolah':`Instrumen: ${sideMenu.find(m=>m.id===id).title}`;
+            
+            if(id!=='identitas'){ 
+                const isLast = sideMenu.findIndex(m=>m.id===id) === sideMenu.length-1; 
+                document.getElementById('btnNext').classList.toggle('hidden', isLast); 
+                document.getElementById('submitBtn').classList.toggle('hidden', !isLast); 
+            }
+            
+            instruments.forEach(inst => { const wrapper=document.getElementById(`tab-content-${inst.id}`); if(wrapper) wrapper.classList.toggle('hidden', inst.id!==id); }); 
+            window.scrollTo(0,0);
         }
+
         function renderAllForms() {
             const cont = document.getElementById('questions-container'); cont.innerHTML='';
             instruments.forEach(inst => {
@@ -173,6 +367,7 @@
                 }); html+=`</div>`; cont.innerHTML += html;
             });
         }
+
         async function tarikDataNPSN() {
             const npsnVal = document.getElementById('npsn').value.trim(); if(!npsnVal){ alert("Isi NPSN!"); return; }
             document.getElementById('loadingModal').classList.remove('hidden');
@@ -189,16 +384,36 @@
                 } else alert("Data belum ada.");
             } catch(e) { alert("Gagal tarik data."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
         }
+
         async function submitAll() {
-            if(!cekTabValid(activeInstrumentId)) return;
-            for(let inst of instruments) if(!cekTabValid(inst.id)){ switchTab(inst.id); return; }
+            // Validasi Keras Sebelum Kirim (Akan mencegah kirim jika masih ada yang kosong)
             const form = new FormData(document.getElementById('main-form'));
+            for (let inst of instruments) {
+                if (!isTabComplete(inst.id)) {
+                    switchTab(inst.id);
+                    for(let sec of inst.sections){
+                        for(let q of sec.questions){
+                            if(!form.get(`${q.id}_ans`)){
+                                const el = document.querySelector(`[name="${q.id}_ans"]`);
+                                if(el) { el.required = true; el.reportValidity(); }
+                                else { const radio = document.querySelector(`input[name="${q.id}_ans"]`); if(radio) { radio.required=true; radio.reportValidity(); } }
+                                alert(`Gagal mengirim! Masih ada pertanyaan yang belum dijawab pada kategori: ${inst.title}`);
+                                return;
+                            }
+                        }
+                    }
+                    return;
+                }
+            }
+
             const data = { action: "save_data", timestamp: new Date().toISOString(), petugas: [form.get('nama_petugas_1'),form.get('nama_petugas_2'),form.get('nama_petugas_3'),form.get('nama_petugas_4')].filter(n=>n).join(', '), tanggal: form.get('tanggal'), provinsi: form.get('provinsi'), kabkota: form.get('kabkota'), npsn: form.get('npsn'), sasaran: form.get('nama_sasaran'), link_bukti: form.get('link_bukti'), jawaban: [] };
             instruments.forEach(inst=>{ inst.sections.forEach(sec=>{ sec.questions.forEach(q=>{ const a=form.get(`${q.id}_ans`); if(a) data.jawaban.push({kategori: inst.title, kode: q.id, pertanyaan: q.text, status: a, catatan: form.get(`${q.id}_note`)||''}); }); }); });
             document.getElementById('loadingModal').classList.remove('hidden');
             try { const res = await fetch(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(data)}); const r = await res.json(); if(r.result!=='success') throw new Error(); document.getElementById('successModal').classList.remove('hidden'); } catch(e) { alert("Gagal mengirim."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
         }
+
         function closeSuccessModal() { document.getElementById('successModal').classList.add('hidden'); window.scrollTo(0,0); document.getElementById('main-form').reset(); completedTabs.clear(); switchTab('identitas'); }
+        
         function generatePDFReport(isBlank) {
             const f = new FormData(document.getElementById('main-form')); let w = window.open('','','width=900,height=650');
             let h = `<html><head><title>Cetak Sekolah</title><style>body{font-family:Arial;padding:20px;font-size:14px}.head{border-bottom:3px solid #067ac1;padding-bottom:15px;margin-bottom:20px}.ttl{text-align:center;font-weight:bold;margin-bottom:30px}table{width:100%;border-collapse:collapse;margin-bottom:30px}td,th{border:1px solid #333;padding:8px}th{background:#f0f0f0;width:35%}.st{background:#067ac1;color:#fff;padding:8px;font-weight:bold;margin:20px 0 10px;-webkit-print-color-adjust:exact}.ct{background:#293548;color:#fff;padding:10px;text-align:center;font-weight:bold;margin-top:30px;-webkit-print-color-adjust:exact}.q{margin-bottom:15px;border-bottom:1px dashed #ccc;padding-bottom:10px}.bx{border:1px solid #666;min-height:50px;padding:5px;margin-top:5px}.pb{page-break-before:always}</style></head><body><div class="head">INSTRUMEN PEMANTAUAN TKA 2026 - SEKOLAH & SISWA</div>`;

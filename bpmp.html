@@ -267,9 +267,20 @@
         
         function generatePDFReport(isBlank) {
             const f = new FormData(document.getElementById('main-form')); let w = window.open('','','width=900,height=650');
-            let h = `<html><head><title>Cetak BPMP</title><style>body{font-family:Arial;padding:20px;font-size:14px}.head{border-bottom:3px solid #067ac1;padding-bottom:15px;margin-bottom:20px}.ttl{text-align:center;font-weight:bold;margin-bottom:30px}table{width:100%;border-collapse:collapse;margin-bottom:30px}td,th{border:1px solid #333;padding:8px}th{background:#f0f0f0;width:35%}.st{background:#067ac1;color:#fff;padding:8px;font-weight:bold;margin:20px 0 10px;-webkit-print-color-adjust:exact}.q{margin-bottom:15px;border-bottom:1px dashed #ccc;padding-bottom:10px}.bx{border:1px solid #666;min-height:50px;padding:5px;margin-top:5px}</style></head><body><div class="head">INSTRUMEN PEMANTAUAN TKA 2026 - BPMP</div>`;
-            h += `<table><tr><th>Provinsi / Kab-Kota</th><td>${isBlank?'':document.getElementById('prov_search').value+' / '+document.getElementById('kab_search').value}</td></tr><tr><th>Instansi BPMP</th><td>${isBlank?'':f.get('nama_sasaran')}</td></tr></table>`;
-            instruments[0].sections.forEach(s=>{ h+=`<div class="st">${s.title}</div>`; s.questions.forEach(q=>{ let a=isBlank?'':f.get(`${q.id}_ans`)||''; let n=isBlank?'':f.get(`${q.id}_note`)||''; h+=`<div class="q"><b>[${q.id}]</b> ${q.text}<div style="display:flex;gap:15px;margin-top:5px">`+(q.type==='radio'?q.options.map(o=>`<span>${(!isBlank&&a===o)?'☑':'☐'} ${o}</span>`).join(''):`<div class="bx w-full">${a}</div>`)+`</div><div style="font-style:italic;color:#555;margin-top:5px">Catatan: ${isBlank?'............':n}</div></div>`; }); });
+            let h = `<html><head><title>Cetak BPMP</title><style>body{font-family:Arial;padding:20px;font-size:14px}.header-img{width:100%;max-height:90px;object-fit:contain;margin-bottom:20px;border-bottom:3px solid #067ac1;padding-bottom:15px}.ttl{text-align:center;font-weight:bold;margin-bottom:20px}table{width:100%;border-collapse:collapse;margin-bottom:20px}td,th{border:1px solid #333;padding:8px}th{background:#f0f0f0;text-align:left}.info-table th{width:35%}.st{background:#067ac1;color:#fff;padding:8px;font-weight:bold;margin:20px 0 0;-webkit-print-color-adjust:exact}.q-table{page-break-inside:auto}.q-table tr{page-break-inside:avoid;page-break-after:auto}.q-table th{text-align:center;background:#e2e8f0}.q-table td{vertical-align:top}.col-id{width:10%;text-align:center;font-weight:bold}.col-q{width:40%}.col-a{width:25%}.col-n{width:25%}.options div{margin-bottom:5px}.bx{min-height:50px}.pb{page-break-before:always}</style></head><body>`;
+            h += `<img src="Header Itjen Kemendikdasmen.png" class="header-img" onerror="this.style.display='none'" /><div class="ttl">INSTRUMEN PEMANTAUAN TKA 2026 - BPMP</div>`;
+            h += `<table class="info-table"><tr><th>Provinsi / Kab-Kota</th><td>${isBlank?'':document.getElementById('prov_search').value+' / '+document.getElementById('kab_search').value}</td></tr><tr><th>Instansi BPMP</th><td>${isBlank?'':f.get('nama_sasaran')}</td></tr></table>`;
+            instruments[0].sections.forEach(s=>{ 
+                h+=`<div class="st">${s.title}</div><table class="q-table"><thead><tr><th class="col-id">Kode</th><th class="col-q">Pertanyaan</th><th class="col-a">Jawaban</th><th class="col-n">Catatan</th></tr></thead><tbody>`; 
+                s.questions.forEach(q=>{ 
+                    let a=isBlank?'':f.get(`${q.id}_ans`)||''; let n=isBlank?'':f.get(`${q.id}_note`)||''; 
+                    h+=`<tr><td class="col-id">${q.id}</td><td class="col-q">${q.text}</td><td class="col-a">`;
+                    if(q.type==='radio') { h+=`<div class="options">`+q.options.map(o=>`<div><span style="font-size:16px">${(!isBlank&&a===o)?'☑':'☐'}</span> ${o}</div>`).join('')+`</div>`; }
+                    else { h+=`<div class="bx">${a}</div>`; }
+                    h+=`</td><td class="col-n"><div style="font-style:italic;color:#555;font-size:12px;margin-bottom:4px">${q.noteLabel}</div>${isBlank?'':n}</td></tr>`; 
+                }); 
+                h+=`</tbody></table>`; 
+            });
             h += `<script>window.onload=function(){setTimeout(function(){window.print();window.close();},500)};<\/script></body></html>`; w.document.write(h); w.document.close();
         }
         window.onload = init;

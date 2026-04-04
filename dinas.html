@@ -77,7 +77,7 @@
 
                 <div id="questions-container" class="hidden"></div>
                 <div id="action-buttons" class="hidden pt-6 border-t border-gray-200 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4 mt-8">
-                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto"><button type="button" onclick="generatePDFReport(true)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200 font-medium py-2.5 px-4 rounded-lg flex border border-slate-300 dark:border-slate-600"><i data-lucide="printer" class="w-5 h-5 mr-2"></i> Cetak Blanko</button><button type="button" onclick="generatePDFReport(false)" class="bg-blue-50 hover:bg-blue-100 text-primary-dark dark:bg-primary-dark/20 dark:text-primary-light font-medium py-2.5 px-4 rounded-lg flex border border-blue-200 dark:border-primary/30"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Cetak Laporan Terisi</button></div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto"><button type="button" onclick="generatePDFReport(true)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-200 font-medium py-2.5 px-4 rounded-lg flex border border-slate-300 dark:border-slate-600"><i data-lucide="printer" class="w-5 h-5 mr-2"></i> Cetak Blanko</button><button type="button" onclick="generatePDFReport(false)" class="bg-blue-50 hover:bg-blue-100 text-primary-dark dark:bg-primary-dark/20 dark:text-primary-light font-medium py-2.5 px-4 rounded-lg flex border border-blue-200 dark:border-primary/30"><i data-lucide="file-text" class="w-5 h-5 mr-2"></i> Cetak Terisi</button></div>
                     <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto ml-auto"><button type="button" id="btnPrev" onclick="prevTab()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-slate-700 dark:hover:bg-slate-600 dark:text-gray-200 font-medium py-2.5 px-6 rounded-lg flex"><i data-lucide="chevron-left" class="w-5 h-5 mr-1"></i> Sebelumnya</button><button type="button" id="btnNext" onclick="nextTab()" class="bg-primary hover:bg-primary-dark text-white font-medium py-2.5 px-6 rounded-lg flex hidden">Selanjutnya <i data-lucide="chevron-right" class="w-5 h-5 ml-1"></i></button><button type="button" id="submitBtn" onclick="submitAll()" class="bg-secondary hover:bg-secondary-dark text-white font-medium py-2.5 px-8 rounded-lg flex"><i data-lucide="send" class="w-5 h-5 mr-2"></i> Kirim & Simpan Data</button></div>
                 </div>
             </form>
@@ -98,32 +98,125 @@
         const instruments = [{
             id: 'dinas', title: 'Dinas Kab/Kota',
             sections: [
-                { title: 'A. Tata Kelola dan Koordinasi', questions: [{ id: 'KAB-1.1', text: 'Apakah Panitia Penyelenggara TKA Tingkat Kabupaten/Kota (Dinas/Kemenag) sudah dibentuk dan memiliki SK resmi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Tanggal SK:' }, { id: 'KAB-1.2', text: 'Apakah Dinas/Kemenag sudah sosialisasi kebijakan dan teknis pelaksanaan TKA kepada SD/MI dan SMP/MTs?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Arsip Undangan:' }, { id: 'KAB-1.3', text: 'Apakah ada edaran resmi mengatur batas kewajaran biaya untuk sekolah menumpang?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-1.4', text: 'Apakah ada koordinasi formal dengan pihak PLN dan ISP daerah untuk mencegah pemadaman?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / MoU:' }] },
-                { title: 'B. Penyiapan Instrumen Soal Daerah', questions: [{ id: 'KAB-2.1', text: 'Apakah Dinas/Kemenag sudah membentuk Tim Penulis Soal TKA?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Jumlah Guru Penulis:' }, { id: 'KAB-2.2', text: 'Apakah penulis soal menandatangani Pakta Integritas bebas plagiarisme?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-2.3', text: 'Apakah jumlah paket soal yang dibuat memenuhi syarat (utama, susulan, cadangan)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-2.4', text: 'Apakah draf soal diserahkan kepada Dinas Provinsi untuk ditelaah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan (No BAST):' }, { id: 'KAB-2.5', text: 'Apakah telah dilakukan telaah soal oleh tim ahli sebelum dirakit?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                { title: 'C. Pengelolaan Data Peserta dan Sekolah', questions: [{ id: 'KAB-3.1', text: 'Apakah penetapan sekolah penyelenggara dilakukan berdasarkan verifikasi infrastruktur?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Total Mandiri / Menumpang:' }, { id: 'KAB-3.2', text: 'Apakah verifikasi DNS dan validasi SPTJM setiap sekolah tuntas 100% di sistem?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Persentase Penyelesaian:' }, { id: 'KAB-3.3', text: 'Apakah DNT dan Kartu Peserta dicetak sebelum simulasi/gladi bersih dimulai?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] },
-                { title: 'D. SDM dan Penanganan Kendala Teknis', questions: [{ id: 'KAB-4.1', text: 'Apakah SK Pengawas diterbitkan dengan sistem silang murni?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-4.2', text: 'Apakah Posko Bantuan (Helpdesk) Tim Teknis Kabupaten/Kota sudah aktif?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, { id: 'KAB-4.3', text: 'Apakah Tim Teknis siap melayani pembukaan Token Offline bagi daerah blank spot?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }] }
+                { title: 'A. Tata Kelola dan Koordinasi', questions: [
+                    { id: 'KAB-1.1', text: 'Apakah Panitia Penyelenggara TKA Tingkat Kabupaten/Kota (Dinas/Kemenag) sudah dibentuk dan memiliki Surat Keputusan (SK) resmi?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Tanggal SK:' }, 
+                    { id: 'KAB-1.2', text: 'Apakah Dinas/Kemenag sudah melakukan sosialisasi kebijakan, jadwal, dan teknis pelaksanaan TKA kepada seluruh SD/MI dan SMP/MTs?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / Arsip Undangan:' }, 
+                    { id: 'KAB-1.3', text: 'Apakah ada surat edaran resmi yang mengatur batas kewajaran biaya untuk sekolah yang menumpang (resource sharing)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, 
+                    { id: 'KAB-1.4', text: 'Apakah sudah ada koordinasi formal dengan pihak PLN dan penyedia internet (ISP) daerah untuk mencegah pemadaman selama hari ujian?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan / MoU:' }
+                ] },
+                { title: 'B. Penyiapan Instrumen Soal Daerah', questions: [
+                    { id: 'KAB-2.1', text: 'Apakah Dinas/Kemenag sudah membentuk Tim Penulis Soal TKA yang merekrut guru SD dan SMP yang berkompeten?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Jumlah Guru Penulis:' }, 
+                    { id: 'KAB-2.2', text: 'Apakah seluruh penulis soal sudah menandatangani Pakta Integritas yang menjamin soal bebas plagiarisme dan tidak berafiliasi bimbel?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, 
+                    { id: 'KAB-2.3', text: 'Apakah jumlah paket soal yang dibuat sudah memenuhi syarat (ada paket utama, susulan, dan cadangan)?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, 
+                    { id: 'KAB-2.4', text: 'Apakah naskah draf soal daerah sudah diserahkan kepada Dinas Pendidikan Provinsi untuk ditelaah dan divalidasi mutunya?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan (No BAST):' }, 
+                    { id: 'KAB-2.5', text: 'Apakah telah dilakukan proses telaah (review) soal oleh tim ahli/pengawas sebelum soal dirakit menjadi paket ujian?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                ] },
+                { title: 'C. Pengelolaan Data Peserta dan Sekolah', questions: [
+                    { id: 'KAB-3.1', text: 'Apakah penetapan sekolah penyelenggara (mandiri atau menumpang) sudah dilakukan berdasarkan verifikasi infrastruktur jaringan dan komputer?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Total Mandiri / Menumpang:' }, 
+                    { id: 'KAB-3.2', text: 'Apakah proses verifikasi Daftar Nominasi Sementara (DNS) dan validasi SPTJM dari setiap sekolah sudah tuntas 100% di sistem pusat?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Persentase Penyelesaian:' }, 
+                    { id: 'KAB-3.3', text: 'Apakah Daftar Nominasi Tetap (DNT) dan Kartu Peserta Ujian sudah dicetak dan didistribusikan ke sekolah-sekolah sebelum simulasi/gladi bersih dimulai?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }
+                ] },
+                { title: 'D. SDM dan Penanganan Kendala Teknis', questions: [
+                    { id: 'KAB-4.1', text: 'Apakah SK Penugasan Pengawas Ruang sudah diterbitkan dengan sistem silang murni dan BUKAN guru mata pelajaran yang sedang diujikan?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, 
+                    { id: 'KAB-4.2', text: 'Apakah Posko Bantuan (Helpdesk) Tim Teknis tingkat Kabupaten/Kota sudah aktif dan memiliki kontak yang bisa dihubungi sekolah?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan:' }, 
+                    { id: 'KAB-4.3', text: 'Apakah Tim Teknis Kabupaten/Kota sudah memahami prosedur pengajuan dan siap melayani pembukaan Token Offline bagi daerah blank spot?', type: 'radio', options: ['Ya', 'Tidak'], noteLabel: 'Catatan Hasil Wawancara Singkat:' }
+                ] }
             ]
         }];
 
-        function init() { document.getElementById('tanggal').valueAsDate = new Date(); renderAllForms(); switchTab(activeInstrumentId); lucide.createIcons(); }
+        function init() { 
+            document.getElementById('tanggal').valueAsDate = new Date(); 
+            renderAllForms(); 
+            switchTab(activeInstrumentId); 
+            lucide.createIcons(); 
+        }
+
+        // SILENT CHECKER - Hanya mengecek nilai tanpa memunculkan peringatan wajib isi
+        function isTabComplete(tabId) {
+            if (tabId === 'identitas') return cekIdentitasValid();
+            const form = new FormData(document.getElementById('main-form'));
+            const inst = instruments.find(i => i.id === tabId);
+            if (!inst) return true;
+            for (let sec of inst.sections) {
+                for (let q of sec.questions) {
+                    const ans = form.get(`${q.id}_ans`);
+                    if (!ans || String(ans).trim() === '') return false;
+                }
+            }
+            return true;
+        }
+
         function renderNavigation() {
             const nav = document.getElementById('nav-menu'); nav.innerHTML = '';
             sideMenu.forEach(inst => {
-                const isActive = inst.id === activeInstrumentId; const isCompleted = completedTabs.has(inst.id);
+                const isActive = inst.id === activeInstrumentId; 
+                // Selalu cek kelengkapan saat merender menu
+                if(inst.id !== 'identitas') {
+                    if(isTabComplete(inst.id)) completedTabs.add(inst.id);
+                    else completedTabs.delete(inst.id);
+                }
+                const isCompleted = completedTabs.has(inst.id);
                 let liClass = isActive ? "bg-primary/10 text-primary dark:bg-primary/20 dark:text-primary-light border-l-4 border-primary font-semibold" : (isCompleted ? "bg-secondary/20 text-secondary-dark dark:bg-secondary/20 dark:text-secondary border-l-4 border-secondary font-semibold" : "text-gray-600 dark:text-gray-400 border-l-4 border-transparent hover:bg-gray-100 dark:hover:bg-slate-800");
                 nav.innerHTML += `<li><a href="#" onclick="switchTab('${inst.id}')" class="flex items-center px-6 py-3 text-sm cursor-pointer ${liClass}"><i data-lucide="${inst.icon}" class="w-5 h-5 mr-3 ${isActive?'text-primary dark:text-primary-light':'text-gray-400 dark:text-gray-500'}"></i><span class="flex-1">${inst.title}</span>${isCompleted?'<i data-lucide="check-circle" class="w-4 h-4 ml-auto text-secondary dark:text-secondary"></i>':''}</a></li>`;
-            }); lucide.createIcons();
+            }); 
+            lucide.createIcons();
         }
-        function cekIdentitasValid() { const req = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'nama_sasaran', 'link_bukti']; for(let r of req) { let el=document.querySelector(`[name="${r}"]`); if(!el.value.trim()){ el.reportValidity(); return false;} } return true; }
-        function cekTabValid(tabId) { if(tabId==='identitas') return cekIdentitasValid(); const form = new FormData(document.getElementById('main-form')); const inst=instruments.find(i=>i.id===tabId); if(!inst) return true; for(let sec of inst.sections){ for(let q of sec.questions){ if(!form.get(`${q.id}_ans`)){ const el=document.querySelector(`[name="${q.id}_ans"]`); if(el) {el.required=true; el.reportValidity();} return false; } } } return true; }
-        function prevTab() { const idx = sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx>0) switchTab(sideMenu[idx-1].id); }
-        function nextTab() { if(activeInstrumentId==='identitas'){ if(cekIdentitasValid()){ completedTabs.add('identitas'); switchTab('dinas'); } return; } if(cekTabValid(activeInstrumentId)){ completedTabs.add(activeInstrumentId); const idx=sideMenu.findIndex(m=>m.id===activeInstrumentId); if(idx<sideMenu.length-1) switchTab(sideMenu[idx+1].id); } }
+
+        function cekIdentitasValid() { 
+            const req = ['nama_petugas_1', 'tanggal', 'provinsi', 'kabkota', 'nama_sasaran', 'link_bukti']; 
+            for(let r of req) { 
+                let el=document.querySelector(`[name="${r}"]`); 
+                if(!el.value.trim()){ el.reportValidity(); return false;} 
+            } 
+            return true; 
+        }
+
+        function prevTab() { 
+            const idx = sideMenu.findIndex(m=>m.id===activeInstrumentId); 
+            if(idx>0) switchTab(sideMenu[idx-1].id); 
+        }
+
+        function nextTab() { 
+            if(activeInstrumentId==='identitas'){ 
+                if(cekIdentitasValid()){ completedTabs.add('identitas'); switchTab('dinas'); } 
+                else { alert("Harap lengkapi seluruh data identitas wilayah (bertanda *) terlebih dahulu."); }
+                return; 
+            } 
+            
+            // BEBAS PINDAH HALAMAN (meskipun belum lengkap, tapi warna indikator menyesuaikan)
+            if(isTabComplete(activeInstrumentId)) completedTabs.add(activeInstrumentId); 
+            else completedTabs.delete(activeInstrumentId);
+
+            const idx=sideMenu.findIndex(m=>m.id===activeInstrumentId); 
+            if(idx<sideMenu.length-1) switchTab(sideMenu[idx+1].id); 
+        }
+
         function switchTab(id) {
-            if(id!=='identitas' && !cekIdentitasValid()){ id='identitas'; } activeInstrumentId=id; renderNavigation();
-            document.getElementById('identitas-container').classList.toggle('hidden', id!=='identitas'); document.getElementById('questions-container').classList.toggle('hidden', id==='identitas'); document.getElementById('action-buttons').classList.toggle('hidden', id==='identitas'); document.getElementById('header-title').innerText = id==='identitas'?'Identitas Wilayah':`Instrumen: Dinas Kab/Kota`;
-            if(id!=='identitas'){ document.getElementById('btnNext').classList.add('hidden'); document.getElementById('submitBtn').classList.remove('hidden'); }
-            instruments.forEach(inst => { const wrapper=document.getElementById(`tab-content-${inst.id}`); if(wrapper) wrapper.classList.toggle('hidden', inst.id!==id); }); window.scrollTo(0,0);
+            if(id!=='identitas' && !cekIdentitasValid()){ alert("Harap lengkapi identitas terlebih dahulu."); id='identitas'; } 
+            
+            // Simpan status kelengkapan tab sebelumnya
+            if(activeInstrumentId !== 'identitas') {
+                if(isTabComplete(activeInstrumentId)) completedTabs.add(activeInstrumentId);
+                else completedTabs.delete(activeInstrumentId);
+            }
+
+            activeInstrumentId=id; 
+            renderNavigation();
+            
+            document.getElementById('identitas-container').classList.toggle('hidden', id!=='identitas'); 
+            document.getElementById('questions-container').classList.toggle('hidden', id==='identitas'); 
+            document.getElementById('action-buttons').classList.toggle('hidden', id==='identitas'); 
+            document.getElementById('header-title').innerText = id==='identitas'?'Identitas Wilayah':`Instrumen: Dinas Kab/Kota`;
+            
+            if(id!=='identitas'){ 
+                document.getElementById('btnNext').classList.add('hidden'); 
+                document.getElementById('submitBtn').classList.remove('hidden'); 
+            }
+            
+            instruments.forEach(inst => { const wrapper=document.getElementById(`tab-content-${inst.id}`); if(wrapper) wrapper.classList.toggle('hidden', inst.id!==id); }); 
+            window.scrollTo(0,0);
         }
+
         function renderAllForms() {
             const cont = document.getElementById('questions-container'); cont.innerHTML='';
             instruments.forEach(inst => {
@@ -139,6 +232,7 @@
                 }); html+=`</div>`; cont.innerHTML += html;
             });
         }
+
         async function tarikDataWilayah() {
             const prov = document.getElementById('prov_search').value; const kab = document.getElementById('kab_search').value.trim();
             if(!prov || !kab){ alert("Isi Provinsi dan Kabupaten/Kota!"); return; }
@@ -156,15 +250,37 @@
                 } else alert("Data belum ada, silakan isi baru.");
             } catch(e) { alert("Gagal tarik data."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
         }
+
         async function submitAll() {
-            if(!cekTabValid(activeInstrumentId)) return;
+            // Validasi Keras Sebelum Kirim (Akan mencegah kirim jika masih ada yang kosong)
             const form = new FormData(document.getElementById('main-form'));
+            for (let inst of instruments) {
+                if (!isTabComplete(inst.id)) {
+                    switchTab(inst.id);
+                    // Tandai form yang kosong agar petugas tahu
+                    for(let sec of inst.sections){
+                        for(let q of sec.questions){
+                            if(!form.get(`${q.id}_ans`)){
+                                const el = document.querySelector(`[name="${q.id}_ans"]`);
+                                if(el) { el.required = true; el.reportValidity(); }
+                                else { const radio = document.querySelector(`input[name="${q.id}_ans"]`); if(radio) { radio.required=true; radio.reportValidity(); } }
+                                alert(`Gagal mengirim! Masih ada pertanyaan yang belum dijawab pada kategori: ${inst.title}`);
+                                return;
+                            }
+                        }
+                    }
+                    return;
+                }
+            }
+
             const data = { action: "save_data", timestamp: new Date().toISOString(), petugas: [form.get('nama_petugas_1'),form.get('nama_petugas_2'),form.get('nama_petugas_3'),form.get('nama_petugas_4')].filter(n=>n).join(', '), tanggal: form.get('tanggal'), provinsi: document.getElementById('prov_search').value, kabkota: document.getElementById('kab_search').value, npsn: "", sasaran: form.get('nama_sasaran'), link_bukti: form.get('link_bukti'), jawaban: [] };
             instruments[0].sections.forEach(sec=>{ sec.questions.forEach(q=>{ const a=form.get(`${q.id}_ans`); if(a) data.jawaban.push({kategori: instruments[0].title, kode: q.id, pertanyaan: q.text, status: a, catatan: form.get(`${q.id}_note`)||''}); }); });
             document.getElementById('loadingModal').classList.remove('hidden');
             try { const res = await fetch(SCRIPT_URL, {method:'POST', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(data)}); const r = await res.json(); if(r.result!=='success') throw new Error(); document.getElementById('successModal').classList.remove('hidden'); } catch(e) { alert("Gagal mengirim."); } finally { document.getElementById('loadingModal').classList.add('hidden'); }
         }
+
         function closeSuccessModal() { document.getElementById('successModal').classList.add('hidden'); window.scrollTo(0,0); switchTab('identitas'); }
+        
         function generatePDFReport(isBlank) {
             const f = new FormData(document.getElementById('main-form')); let w = window.open('','','width=900,height=650');
             let h = `<html><head><title>Cetak</title><style>body{font-family:Arial;padding:20px;font-size:14px}.head{border-bottom:3px solid #067ac1;padding-bottom:15px;margin-bottom:20px}.ttl{text-align:center;font-weight:bold;margin-bottom:30px}table{width:100%;border-collapse:collapse;margin-bottom:30px}td,th{border:1px solid #333;padding:8px}th{background:#f0f0f0;width:35%}.st{background:#067ac1;color:#fff;padding:8px;font-weight:bold;margin:20px 0 10px;-webkit-print-color-adjust:exact}.q{margin-bottom:15px;border-bottom:1px dashed #ccc;padding-bottom:10px}.bx{border:1px solid #666;min-height:50px;padding:5px;margin-top:5px}</style></head><body><div class="head">INSTRUMEN PEMANTAUAN TKA 2026 - DINAS KAB/KOTA</div>`;
